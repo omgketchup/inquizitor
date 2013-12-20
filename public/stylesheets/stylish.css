@@ -1,0 +1,46 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background:#000;
+}
+a {
+  color: #00b7ff;
+}
+div{
+	background:#fff;
+}
+#quiz-form h3{
+	text-align:center;
+	border-bottom:thin dotted black;
+}
+.category-choice{
+	text-align:center;
+}
+label{
+	margin-bottom:0px;
+}
+
+.plus-icon{
+	font-size:2em;
+	vertical-align:middle;
+	color:green;
+}
+.icon-text{
+	vertical-align:middle;
+	margin-left:.5em;
+}
+
+.enter-question{
+	border:solid black;
+	background:lightGray;
+	padding:10px;
+	margin-top:1em;
+	margin-bottom:1em;
+}
+
+.oneline{
+	height:1.15em;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	
+}
