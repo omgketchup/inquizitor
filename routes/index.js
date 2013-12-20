@@ -4,7 +4,7 @@
  */
 
 exports.index = function(req, res){
-  res.render('index', { title: 'JBFC Oscar Poll' });
+  res.render('index', { title: 'Inquizitor App Home' });
 };
 
 
