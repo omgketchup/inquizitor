@@ -6,4 +6,10 @@ cd inquizitor
 npm install
 node app
 
+Instructions for use:
+Currently funky homepage - /
+Create a test - /create
+
+That's all for now.
+
 Please Note: This is a work-in-progress, and kind of me just experimenting with express, angular, and mongodb.

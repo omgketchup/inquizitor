@@ -7,9 +7,10 @@ var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
   , http = require('http')
-  , path = require('path');
+  , path = require('path')
+  , mongoose = require('mongoose');
 
-var app = express();
+var app = module.exports = express();
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -30,8 +31,16 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
+
+mongoose.connect('mongodb://localhost/test');
+
 app.get('/', routes.index);
 app.get('/create', routes.create);
+app.get('/list', routes.list);
+app.get('/quizzes', routes.quizzes);
+
+app.post('/quiztest', routes.quiztest);
+//app.get('/quiz/:id');
 app.get('/users', user.list);
 
 http.createServer(app).listen(app.get('port'), function(){
