@@ -1,0 +1,23 @@
+<div class='row'>
+	<div class='large-6 columns'>
+		<h1>Quizzes</h1>
+	</div>
+	<div class='large-6 columns' style='text-align:right;'>
+		<h5>
+			<a ui-sref='new' class='button tiny radius'><i class='fi-plus'></i> New Quiz</a>
+		</h5>
+	</div>
+	<hr/>
+</div>
+<div class='row' ng-repeat='quiz in quizzes | orderBy:"-created"'>
+	<div class='large-1 columns'>
+		<a href='#' style='color:red;' title='Delete this.'><i class='fi-x'></i></a>
+	</div>
+	<div class='large-9 columns'>
+		<a ng-href='#/edit/{{ quiz._id }}' alt='edit quiz' title='Edit this quiz'>{{quiz.name}}</a>
+	</div>
+	<div class='large-2 columns'>
+		<span title='alternate title' ng-attr-title="{{quiz.created | date:'h:mma, EEE MMM d, yyyy'}}">{{quiz.created | date:'MMM d, yyyy'}}</span>
+	</div>
+	<hr/>
+</div>

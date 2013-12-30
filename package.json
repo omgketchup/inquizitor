@@ -8,6 +8,10 @@
   "dependencies": {
     "express": "3.2.4",
     "ejs": "*",
-    "stylus": "*"
+    "stylus": "*",
+    "mongoose": "3.8.3",
+    "connect-flash": "*",
+    "passport": "0.1.17",
+    "passport-local": "*"
   }
 }

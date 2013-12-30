@@ -4,7 +4,8 @@ var mongoose = require('mongoose')
 
 var SweetQuizSchema = new Schema({
     name: String,
-    questions: [String],
+    type: String,
+    questions: {type:Array, "default":[]},
     created: String,
     author: String
 });

@@ -1,0 +1,149 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" data-useragent="Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0)">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inquizitor - Some kind of tagline.</title>
+
+    <meta name="description" content="Documentation and reference library for ZURB Foundation. JavaScript, CSS, components, grid and more." />
+    
+    <meta name="author" content="ZURB, inc. ZURB network also includes zurb.com" />
+    <meta name="copyright" content="ZURB, inc. Copyright (c) 2013" />
+
+    <link rel='stylesheet' href='/vendor/foundation/css/normalize.css' />
+    <link rel='stylesheet' href='/vendor/foundation/css/foundation.min.css' />
+    <link rel='stylesheet' href='/stylesheets/stylish.css' />
+  </head>
+  <body>
+    
+<!-- Navigation -->
+ 
+  <nav class="top-bar" data-topbar>
+    <ul class="title-area">
+      <!-- Title Area -->
+      <li class="name">
+        <h1>
+          <a href="/">
+            Inquizitor
+          </a>
+        </h1>
+      </li>
+      <li class="toggle-topbar menu-icon"><a href="#"><span>menu</span></a></li>
+    </ul>
+ 
+    <section class="top-bar-section">
+      <ul class='right'>
+        <li class="divider"></li>
+        <li><a href='about'>About</a></li>
+        <li class="divider"></li>
+        <li><a href='support'>Support</a></li>
+        <li class="divider"></li>
+        <li ng-show="!user.email"><a href="signup">Sign up</a></li>
+        <li ng-show="!user.email" class="divider"></li>
+        <li ng-show="!user.email"><a href='login'>Log in</a></li>
+        <li ng-show="user.email"><a href='logout'>{{user.email}}</a></li>
+        <li ng-show="user.email" class="divider"></li>
+        <li ng-show="user.email"><a href='logout'>Log out</a></li>
+      </ul>
+    </section>
+  </nav>
+ 
+  <!-- End Top Bar -->
+
+  <div class="row">
+    <div class="large-12 columns">
+ 
+    <!-- Content Slider -->
+    <!-- Hide Slider... 
+      <div class="row">
+        <div class="large-12 hide-for-small">
+ 
+          <div id="featured" data-orbit>
+              <img src="http://placehold.it/1200x500&text=Slide Image 1" alt="slide image">
+              <img src="http://placehold.it/1200x500&text=Slide Image 2" alt="slide image">
+              <img src="http://placehold.it/1200x500&text=Slide Image 3" alt="slide image">
+            </div>
+ 
+      </div>
+    </div>
+    -->
+    <!-- End Content Slider -->
+ 
+    <!-- Mobile Header -->
+ 
+      <div class="row">
+        <div class="large-12 columns show-for-small">
+ 
+          <img src="http://placehold.it/1200x700&text=Mobile Header">
+ 
+        </div>
+      </div><br>
+ 
+    <!-- End Mobile Header -->
+ 
+      
+      <div class="row" ng-app="app" ng-controller='signupPageController'>
+        <div class='large-12 columns label alert' ng-show='errorMessage'>
+          <h4>{{errorMessage}}</h4>
+        </div>
+        <div class="large-12 columns">
+          <h1>Sign Up</h1>
+          <h4>All we need from you is an email and a password. Please be careful typing it in - we don't have a confirm password field because we trust you.</h4>
+          <form id='login_form'>
+            <label>
+              <span>email</span>
+              <input type='text' id='email' ng-model="user.email" placeholder='email@address.com' />
+            </label>
+            <label>
+              <span>password</span>
+              <input type='password' id='pass' ng-model="user.pass" placeholder='Choose something good' />
+            </label>
+
+          <div class='row'>
+            <div class='large-6 columns'>
+              <a ng-click="SignUp()" class='button success'>Sign me up!</a>
+            </div>
+            <div class='large-6 columns'>
+              
+            </div>
+          </div>
+          </form>
+
+        </div>
+      </div>
+ 
+    <!-- End Content -->
+ 
+ 
+    <!-- Footer -->
+ 
+    <!-- End Footer -->
+ 
+    </div>
+  </div>
+ 
+ <!-- <script>
+  document.write('<script src=js/vendor/' +
+  ('__proto__' in {} ? 'zepto' : 'jquery') +
+  '.js><\/script>')
+  </script>
+  <script src="js/foundation.min.js"></script>
+  <script>
+    $(document).foundation();
+  </script>
+<!-- End Footer -->
+    <script type='text/javascript' src='/vendor/angular/angular.min.js'></script>
+    <script type='text/javascript' src='/javascripts/create.js'></script>
+
+    <!-- 
+    <script src="../assets/js/jquery.js"></script>
+    <script src="../assets/js/templates/foundation.js"></script>
+    <script>
+      $(document).foundation();
+
+      var doc = document.documentElement;
+      doc.setAttribute('data-useragent', navigator.userAgent);
+    </script> -->
+  </body>
+</html>

@@ -5,16 +5,97 @@
     <link rel='stylesheet' href='/vendor/foundation/css/normalize.css' />
     <link rel='stylesheet' href='/vendor/foundation/css/foundation.min.css' />
     <link rel='stylesheet' href='/stylesheets/stylish.css' />
+    <link rel="stylesheet" href="/fonts/foundation-icons.css">
   </head>
-  <body ng-app="app">
-  		<div ng-controller='listQuizController'>
-	  		<h1>List</h1>
-	  		<ul>
-	  			<li ng-repeat='quiz in quizzes'>
-	  				{{quiz.name}}
-	  			</li>
-	  		</ul>
-	  	</div>
+  <body ng-app="app"  ng-controller='listQuizController'>
+    <!-- Navigation -->
+ 
+  <nav class="top-bar" data-topbar>
+    <ul class="title-area">
+      <!-- Title Area -->
+      <li class="name">
+        <h1>
+          <a href="/">
+            Inquizitor
+          </a>
+        </h1>
+      </li>
+      <li class="toggle-topbar menu-icon"><a href="#"><span>menu</span></a></li>
+    </ul>
+ 
+    <section class="top-bar-section">
+      <ul class='right'>
+        <li class="divider"></li>
+        <li><a href='about'>About</a></li>
+        <li class="divider"></li>
+        <li><a href='support'>Support</a></li>
+        <li class="divider"></li>
+        <li ng-show="!user.email"><a href="signup">Sign up</a></li>
+        <li ng-show="!user.email" class="divider"></li>
+        <li ng-show="!user.email"><a href='login'>Log in</a></li>
+        <li ng-show="user.email"><a href='logout'>{{user.email}}</a></li>
+        <li ng-show="user.email" class="divider"></li>
+        <li ng-show="user.email"><a href='logout'>Log out</a></li>
+      </ul>
+    </section>
+  </nav>
+ 
+  <!-- End Top Bar -->
+     <div class="row">
+
+ <!-- Nav Sidebar -->
+    <!-- This is source ordered to be pulled to the left on larger screens -->
+    <div class="large-3 columns ">
+        <ul class='side-nav'>
+          <li><a class='button main' href='/feed' title='home'><i class='fi-home'></i> home</a></li>
+          <li><a class='button main' href='/browse'><i class='fi-thumbnails'></i> browse</a></li>
+          <li><a class='button main' href='/reports'><i class='fi-mountains'></i> reports</a></li>
+          <li class='divider'></li>
+          <li><a href='/create' class='button'><i class='fi-plus'></i> New Quiz</a></li>
+        </ul>
+    </div>
+    
+    <!-- Main Feed -->
+    <!-- This has been source ordered to come first in the markup (and on small devices) but to be to the right of the nav on larger screens -->
+    <div class="large-6 columns">
+      <div class='row'>
+        <div class='large-12 columns'>
+          <h2>My Quizzes</h2>
+          <hr/>
+        </div>
+      </div>
+      <div class='row'>
+        <div class='large-12 columns label alert' ng-show="errorMessage">
+          <h4>{{errorMessage}}</h4>
+        </div>
+      </div>
+      <!-- Feed Entry -->
+      <div class="row" ng-repeat='quiz in quizzes' ng-show="quizzes.length > 0">
+
+        <div class='large-3 columns'>
+          <h6>{{quiz.created | date:'MMM d, yyyy'}}</h6>
+        </div>
+        <div class='large-7 columns'>
+          <h6>{{quiz.name}}</h6>
+        </div>
+        <div class='large-2 columns'>
+          <h6>
+            <a ng-click="DeleteQuiz(quiz)" href='#'><i style='color:#f00;' class='fi-clock'></i></a>&nbsp; &nbsp; 
+            <a confirmed-click="DeleteQuiz(quiz)" ng-confirm-click="Are you sure you want to delete this test?  This cannot be undone."><i style='color:#f00;' class='fi-x'></i></a></h6>
+        </div>
+      <hr />
+      </div>
+      <!-- End Feed Entry -->
+    </div>
+
+    <!-- Right Sidebar -->
+    <!-- On small devices this column is hidden -->
+    <aside class="large-3 columns hide-for-small">
+      <p><img src="http://placehold.it/300x440&text=[ad]" /></p>
+      <p><img src="http://placehold.it/300x440&text=[ad]" /></p>
+    </aside>
+
+  </div>
   	<script type='text/javascript' src='/vendor/angular/angular.min.js'></script>
   	<script type='text/javascript' src='/javascripts/create.js'></script>
   </body>

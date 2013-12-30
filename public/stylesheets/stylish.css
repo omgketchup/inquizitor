@@ -1,14 +1,4 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background:#000;
-}
-a {
-  color: #00b7ff;
-}
-div{
-	background:#fff;
-}
+
 #quiz-form h3{
 	text-align:center;
 	border-bottom:thin dotted black;
@@ -30,17 +20,25 @@ label{
 	margin-left:.5em;
 }
 
-.enter-question{
+/*.enter-question{
 	border:solid black;
 	background:lightGray;
 	padding:10px;
 	margin-top:1em;
 	margin-bottom:1em;
-}
+}*/
 
 .oneline{
 	height:1.15em;
 	overflow:hidden;
 	text-overflow:ellipsis;
 	
+}
+
+.side-nav .button{
+	/*color:white;*/
+	color:#fff;
+}
+.side-nav .main{
+	color:#000;
 }
