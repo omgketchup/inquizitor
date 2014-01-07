@@ -18,50 +18,14 @@
     <link rel='stylesheet' href='/stylesheets/animate.css' />
     <link rel='stylesheet' href='/stylesheets/stylish.css' />
   </head>
-  <body ng-app='app' ng-controller='MainCtrl'>
+  <body ng-app='app'>
     
 <!-- Navigation -->
  
-  <nav class="top-bar" data-topbar>
-    <ul class="title-area">
-      <!-- Title Area -->
-      <li class="name">
-        <h1>
-          <a href="/">
-            Inquizitor
-          </a>
-        </h1>
-      </li>
-      <li class="toggle-topbar menu-icon"><a href="#"><span>menu</span></a></li>
-    </ul>
- 
-    <section class="top-bar-section">
-      <ul class='right'>
-        <li class="divider"></li>
-        <li><a href='about'>About</a></li>
-        <li class="divider"></li>
-        <li><a href='support'>Support</a></li>
-        <li class="divider"></li>
-        <li ng-show="!user.email"><a href="signup">Sign up</a></li>
-        <li ng-show="!user.email" class="divider"></li>
-        <li ng-show="!user.email"><a href='login'>Log in</a></li>
-        <li ng-show="user.email"><a href='logout'>{{user.email}}</a></li>
-        <li ng-show="user.email" class="divider"></li>
-        <li ng-show="user.email"><a href='logout'>Log out</a></li>
-      </ul>
-    </section>
-  </nav>
  
   <!-- End Top Bar -->
   <div class='row app-content'>
-    <div class='large-2 columns'>
-      <ul class='side-nav'>
-        <li><a class='button' ui-sref='home'>Home</a></li>
-        <li><a class='button' ui-sref='list'>List</a></li>
-        <li><a class='button' href='#'>Analytics</a></li>
-      </ul>
-    </div>
-    <div class='large-10 columns'>
+    <div class='large-12 columns'>
       <div ui-view>
       </div>
     </div>
@@ -79,7 +43,7 @@
       <aasdfasdfasdf1234
       <div class="row">
         <div class="large-12 columns show-for-small">
-          
+ 
           <img src="http://placehold.it/1200x700&text=Mobile Header">
  
         </div>
@@ -92,7 +56,6 @@
     <script type='text/javascript' src='/vendor/angular/angular.min.js'></script>
     <script type='text/javascript' src='/vendor/angular/angular-animate.min.js'></script>
     <script type='text/javascript' src='/vendor/ui-router/ui-router.js'></script>
-    <script type='text/javascript' src='/vendor/ui-bootstrap/ui-bootstrap.min.js'></script>
-    <script type='text/javascript' src='/javascripts/inquizitor.js'></script>
+    <script type='text/javascript' src='/javascripts/quiztaker.js'></script>
   </body>
 </html>

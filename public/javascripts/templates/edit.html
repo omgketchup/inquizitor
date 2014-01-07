@@ -1,28 +1,71 @@
 <div class='row quiz_display'>
 	<h1>{{quiz.name}}</h1>
-	<div class='large-1 columns' style='text-align:right;'>
+	<div class='large-12 columns'>
 		<h4>Title</h4>
-	</div>
-	<div class='large-11 columns'>
 		<input type='text' maxlength='35' placeholder='Quiz Title' ng-model='quiz.name' />
 	</div>
+	<div class='large-12 columns'>
+		<h4>Description
+		<textarea type='text' maxlength='200' placeholder='Description and/or instructions' ng-model='quiz.description'></textarea>
+	</div>
+	<div class='large-12 columns'>
+		<h4>Thank You</h4>
+		<textarea ng-model='quiz.thankyou' placeholder='Text to be shown after someone submits a response.'></textarea>
+	</div>
+	<div class='large-12 columns panel' ng-show='quiz._id'>
+		<h5><span style='font-weight:bold;'>Share this quiz: </span> <a ng-href='http://localhost:3000/take/{{quiz._id}}'>{{  "localhost:3000/take/" + quiz._id; }}</a></h5>
+	</div>
+	<div class='large-12 columns panel' ng-show='quiz.numba > 0'>
+		<h5><i class='fi-results-demographics'></i> {{quiz.numba}} responses <a ui-sref='analytics'>Click to view</a></h5>
+	</div>
+	<div class='large-12 columns panel'>
+		<div class='row'>
+			<div class='large-3 columns'>
+				<h5>Result Type</h5>
+				<select 
+					ng-model='quiz.type'
+					ng-options='option.value as option.name for option in quizTypeOptions'
+				>
+					<!-- POPULATED FROM NG-OPTIONS ABOVE, LOOK IN THE APP -->
+				</select>
+			</div>
+			<div class='large-3 columns'>
+				<h5>Time Limit</h5>
+				<input ng-model='quiz.advancedOptions.timeLimit' type='text' placeholder='hh:mm:ss' />
+			</div>
+			<div class='large-3 columns'>
+				<h5>Expiration</h5>
+				<input ng-model='quiz.advancedOptions.expires' type='date' placeholder='date/timepicker' />
+			</div>
+			<div class='large-3 columns'>
+				<h5>Public</h5>
+				<select ng-model='quiz.advancedOptions.isPublic'>
+					<option>Public</option>
+					<option>Private</option>
+				</select>
+			</div>
+		</div>
+	</div>
 	<div class='large-12 columns' ng-show='quiz.questions.length'>
+		<h2>Questions</h2>
 		<hr/>
 		<div class='row' ng-repeat='question in quiz.questions track by $index'>
-			<div class='large-2 columns'>
+			<div class='large-2 medium-2 small-2 columns'>
 				<select 
 			  		ng-model='question.type' 
-  					ng-options="option.value as option.name for option in typeOptions">
+  					ng-options="option.value as option.name for option in typeOptions"
+  					ng-disabled = 'quiz.type == "poll" || quiz.type == "Poll"'
+  					>
   					<!-- No options in template -->
 			  	</select>
 			</div>
-			<div class='large-8 columns'>
+			<div class='large-8 medium-8 columns'>
 				<input type='text' placeholder='Question text, ex. Who is the best superhero?' ng-model='question.text' />
 			</div>
-			<div class='large-2 columns'>
+			<div class='large-2 medium-2 columns'>
 				<h4 style='text-align:right;'>
-					<a ng-show='question.type == "multiple_choice" && question.showchoices' ng-click='ToggleChoices(question)' alt='Upload an image'><i class='fi-minus'></i> </a>
-					<a ng-show='question.type == "multiple_choice" && !question.showchoices' ng-click='ToggleChoices(question)' alt='Upload an image'><i class='fi-plus'></i> </a>
+					<a ng-show='question.type == "multiple_choice" && question.showchoices' ng-click='ToggleChoices(question)' alt='Upload an image'><i class='fi-minus'></i></a>
+					<a ng-show='question.type == "multiple_choice" && !question.showchoices' ng-click='ToggleChoices(question)' alt='Upload an image'><i class='fi-plus'></i></a>
 					<a ng-click='CopyQuestion(question)' alt='Create a copy of this question as a new question'><i style='color:lightGreen;' class='fi-page-copy'></i></a>
 					<a ng-click='DeleteQuestion(question)' alt='Delete this question.'><i style='color:red;' class='fi-x'></i></a>
 				</h4>
@@ -35,18 +78,30 @@
 					leave:"animated fadeOut"
 				}'
 			>
+				<div class='row'>
+					<div class='large-12 columns'>
+						<p><strong>Display Type:</strong> Radio button or dropdown?  Images only work with radio button.</p>
+					</div>
+				</div>
 				<div class='row' ng-repeat='choice in question.choices'>
-					<div class='large-2 columns' style='text-align:center;'>
+					<div class='large-2 medium-2 columns' style='text-align:center;'>
 						<h4>
-							<a alt='Upload an image'><i class='fi-upload'></i></a>&nbsp;&nbsp;
+							<a ng-click='AddUploadToChoice(question, choice)' alt='Upload an image'><i class='fi-upload'></i></a>&nbsp;&nbsp;
 							<a alt='Link to an image'><i class='fi-link'></i></a>
 						</h4>
 					</div>
-					<div class='large-8 columns'>
+					<div class='large-8 medium-8 columns'>
 						<input type='text' class='small' ng-model='choice.text' placeholder='Choice text, ex. Superman'/>
 					</div>
-					<div class='large-2 columns'>
-						<h4><a ng-click='DeleteChoice(question, choice)' alt='Link to an image'><i style='color:red;' class='fi-x'></i></a></h4>						
+					<div class='large-2 medium-2 columns'>
+						<h4>
+							<a ng-click='ToggleAnswer(question, choice)' alt='Mark this as the correct answer'>
+								<i ng-class='{green:choice.isCorrect == true, gray:choice.isCorrect != true}' class='fi-check'></i>
+							</a> 
+							<a ng-click='DeleteChoice(question, choice)' alt='Link to an image'>
+								<i style='color:red;' class='fi-x'></i>
+							</a>
+						</h4>		
 					</div>
 				</div>
 				<div class='row' ng-show='question.choices.length < 5'>
@@ -56,6 +111,9 @@
 				</div>
 			</div>
 			<hr/>
+		</div>
+		<div class='row'>
+
 		</div>
 	</div>
 </div>

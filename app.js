@@ -27,9 +27,10 @@ app.use(express.session());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
-app.use(app.router);
-  app.use(require('stylus').middleware(__dirname + '/public'));
+app.use(require('stylus').middleware(__dirname + '/public'));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(app.router);
+
 
 // development only
 if ('development' == app.get('env')) {
@@ -110,9 +111,22 @@ app.post('/logout', routes.logout);
 //CURRENT USER
 app.get('/user', routes.currentuser);
 
+//PUBLIC ACTION PAGES
+app.get('/take', routes.takequiz);
+app.get('/take/:id', routes.takequiz);
+app.get('/results', routes.getresults);
+app.get('/results/:id', routes.getresults);
+app.get('/results/:id/:email', routes.getresults);
+
+
 //OTHER ROUTES
 app.get('/create', routes.create);
 
+app.get('/view', routes.viewquiz);
+app.get('/view/:id', routes.viewquiz);
+app.get('/response', routes.getresponse);
+app.post('/response', routes.postresponse);
+app.get('/responses', routes.getresponses); //For getting all of the responses to one quiz.
 app.get('/quiz', routes.getquiz);
 app.post('/quiz', routes.postquiz);
 app.delete('/quiz', routes.deletequiz);

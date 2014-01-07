@@ -11,7 +11,7 @@
 </div>
 <div class='row' ng-repeat='quiz in quizzes | orderBy:"-created"'>
 	<div class='large-1 columns'>
-		<a href='#' style='color:red;' title='Delete this.'><i class='fi-x'></i></a>
+		<a ng-click='DeleteQuiz(quiz)' style='color:red;' title='Delete this.'><i class='fi-x'></i></a>
 	</div>
 	<div class='large-9 columns'>
 		<a ng-href='#/edit/{{ quiz._id }}' alt='edit quiz' title='Edit this quiz'>{{quiz.name}}</a>
