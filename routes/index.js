@@ -29,7 +29,12 @@ exports.index = function(req, res){
 };
 exports.getlogin = function(req, res){
 	console.log("Got login...?");
-	res.render('login', {message:req.flash('error'), status:'nothing'});
+	req.logout();
+	if(req.isAuthenticated()){
+		res.redirect('/app');
+	}else{
+		res.render('login', {message:req.flash('error'), status:'nothing'});
+	}
 };
 exports.postlogin = function(req, res, next){
 	
