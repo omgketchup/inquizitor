@@ -13,7 +13,7 @@
 		<textarea ng-model='quiz.thankyou' placeholder='Text to be shown after someone submits a response.'></textarea>
 	</div>
 	<div class='large-12 columns panel' ng-show='quiz._id'>
-		<h5><span style='font-weight:bold;'>Share this quiz: </span> <a ng-href='http://localhost:3000/take/{{quiz._id}}'>{{  "localhost:3000/take/" + quiz._id; }}</a></h5>
+		<h5><span style='font-weight:bold;'>Share this quiz: </span> <a ng-href='/take/{{quiz._id}}'>{{  "localhost:3000/take/" + quiz._id; }}</a></h5>
 	</div>
 	<div class='large-12 columns panel' ng-show='quiz.numba > 0'>
 		<h5><i class='fi-results-demographics'></i> {{quiz.numba}} responses <a ui-sref='analytics'>Click to view</a></h5>
