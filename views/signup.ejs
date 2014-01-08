@@ -83,26 +83,24 @@
     <!-- End Mobile Header -->
  
       
-      <div class="row" ng-app="app" ng-controller='signupPageController'>
-        <div class='large-12 columns label alert' ng-show='errorMessage'>
-          <h4>{{errorMessage}}</h4>
-        </div>
+      <div class="row">
         <div class="large-12 columns">
           <h1>Sign Up</h1>
           <h4>All we need from you is an email and a password. Please be careful typing it in - we don't have a confirm password field because we trust you.</h4>
-          <form id='login_form'>
+          <form id='login_form' method='POST' action='/signup'>
             <label>
               <span>email</span>
-              <input type='text' id='email' ng-model="user.email" placeholder='email@address.com' />
+              <input type='text' id='email' name='email' placeholder='email@address.com' />
             </label>
             <label>
               <span>password</span>
-              <input type='password' id='pass' ng-model="user.pass" placeholder='Choose something good' />
+              <input type='password' id='pass' name='pass' placeholder='Choose something good' />
             </label>
 
           <div class='row'>
             <div class='large-6 columns'>
-              <a ng-click="SignUp()" class='button success'>Sign me up!</a>
+              <input type='submit' class='button success' value='Sign me up!' />
+              <!-- <a ng-click="SignUp()" class='button success'>Sign me up!</a> -->
             </div>
             <div class='large-6 columns'>
               

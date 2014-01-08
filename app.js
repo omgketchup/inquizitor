@@ -48,29 +48,35 @@ var auth = function(req, res, next){
 
 	passport.use(new LocalStrategy(
 	  function(username, password, done) {
-	  	console.log("AUTHENTICATING...");
 	    User.findOne({ email: username }, function(err, user) {
 	      if (err) { return done(err); }
+	      console.log("Authorizing...");
 	      if (!user) {
 	      	console.log("Username not found");
 	        return done(null, false, { message: 'Incorrect username.' });
 	      }
-	      if (!user.password == password) {
+	      if (user.pass != password) {
 	      	console.log("Password not found");
 	        return done(null, false, { message: 'Incorrect password.' });
 	      }
-	      console.log("Must have authenticated, sweet");
+	      console.log("Must have authenticated, sweet - " + user.email);
+	      console.dir(user);
 	      return done(null, user);
 	    });
 	  }
 	));
 
 	passport.serializeUser(function(user, done) {
-	  done(null, user.id);
+		//console.log("Serializing user.");
+		//console.dir(user);
+	 	done(null, user.id);
 	});
 
 	passport.deserializeUser(function(id, done) {
-	  User.findOne(id, function (err, user) {
+		//console.log("Deserializing user, about to findOne: " + id);
+		//console.dir(id);
+	  User.findOne({_id:id}, function (err, user) {
+	  	//console.log("foundOne, " + user);
 	    done(err, user);
 	  });
 	});
@@ -102,7 +108,7 @@ app.post('/signup', routes.signup)
 
 //LOG IN ROUTES
 app.get('/login', routes.getlogin);
-app.post('/login', passport.authenticate('local', {failureRedirect:'/login', failureFlash: true}), routes.apphome);
+app.post('/login', routes.postlogin);
 
 //LOG OUT ROUTES
 app.get('/logout', routes.logout);

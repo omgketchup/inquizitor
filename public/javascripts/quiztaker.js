@@ -103,13 +103,13 @@ var app = angular.module('app', [ 'ngAnimate','ui.router'
 			})
 			.success(function(response){
 				$scope.submitClass = '';
-				console.log("SUCCESSFULLY SUBMITTED A RESPONSE TO THE QUIZ");
+				console.log("SUCCESSFULLY SUBMITTED A RESPONSE TO THE QUIZ BY THE GUY: " + $scope.email);
 				if($scope.quiz.advancedOptions.resultType == 'poll'){
 					console.log("Should redirect to the poll results view");
-					$state.go('results-quiz', {id: $scope.quiz._id, email:$scope.email});
+					$state.go('results-quiz-email', {id: q._id, email:$scope.email});
 				}else if($scope.quiz.advancedOptions.resultType == 'self'){
 					console.log("Should redirect to the self results view");
-					$state.go('results-quiz', {id: q._id, email:$scope.email});
+					$state.go('results-quiz-email', {id: q._id, email:$scope.email});
 				}else{
 					console.log("Should redirect to the general results view");
 					//console.log($scope.email);

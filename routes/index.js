@@ -10,10 +10,13 @@ exports.main = function(req, res){
 	res.render('templates/main');
 }
 exports.apphome = function(req, res){
+
+	console.dir(req.user);
 	if(req.isAuthenticated()){
+		console.log("user is: " + req.user.email);
 		res.render('templates/app');
-	}else{x
-		res.redirect('/login');
+	}else{
+		res.render('login', {status:'failure', message:'Sorry, something didnt work out there'});
 	}
 }
 
@@ -25,23 +28,45 @@ exports.index = function(req, res){
 	res.render('index', { title: 'Inquizitor App Home' });
 };
 exports.getlogin = function(req, res){
-	res.render('login', {message:req.flash('error')});
+	console.log("Got login...?");
+	res.render('login', {message:req.flash('error'), status:'nothing'});
 };
-exports.postlogin = function(req, res){
-	if(req.isAuthenticated()){
-		res.send({status:"success", user: req.user});
-	}else{
-		res.send({status:"failure", message:"Invalid username/password combination."});
-	}
+exports.postlogin = function(req, res, next){
 	
+	console.log("Posting login.");
+	console.dir(req.user);
+
+        passport.authenticate('local', function(err, user) {
+            if (err) { return next(err) }
+            if (!user) {
+                //res.local("username", req.param('username'));
+                return res.render('login', { status: 'failure', message: "Invalid username/password combination." });
+            }
+            console.log("About to do a 'login'");
+            // make passportjs setup the user object, serialize the user, ...
+            req.login(user, {}, function(err) {
+                if (err) { 
+                	return next(err); 
+                }else{
+                	console.log("Redirecting to /app");
+                	return res.redirect("/app");
+                }
+            });
+        })(req, res, next);
+        return;
+    
+
 };
 exports.logout = function(req, res){
+	console.log("LOGGING OUT!")
 	req.logout();
+	console.dir(req.user);
 	res.redirect('/');
 };
 
 exports.currentuser = function(req, res){
 	if(req.isAuthenticated()){
+		console.log("Getting current user, it's: " + req.user.email);
 		res.send({status:"success", user: req.user});
 	}else{
 		res.send({status:"failure"});
@@ -61,15 +86,16 @@ exports.signup = function(req, res){
 				newuser.save(function(err, newuser){
 					if(err){ console.log("LOGGING MONGODB ERROR while saving a new user: " + err)}
 					console.log("Just saved newuser: " + newuser.email);
+					res.render('login', {status:"success", message:"That email address already exists in our system", css:"success"})
 				});
 			}else{
 				//user was already found in the system.
-				res.send({status:"failure", message:"That email address already exists in our system"});
+				res.render('signup', {status:"failure", message:"That email address already exists in our system", css:"alert"})
 			}
 		});
 	}else if(req.method == "GET"){
 		//display form
-		res.render('signup', req.body.data);
+		res.render('signup', {status:'nothing'});
 	}
 }
 
@@ -412,7 +438,7 @@ exports.getresponse = function(req, res){
 
 exports.getquizzes = function(req, res){
 	if(req.isAuthenticated()){
-		SweetQuiz.find(function(err, quizzes){
+		SweetQuiz.find({author:req.user.email}, function(err, quizzes){
 			if(err) res.send("No quizzes found, something's screwy.");
 			console.log("Found " + quizzes.length + " quizzes.");
 			res.send({quizzes:quizzes, status:'success', message:'got quizzes!'});
@@ -447,7 +473,7 @@ exports.feed = function(req, res){
 		});
 	}else{
 		console.log("WAS NOT AUTHENTICATED");
-		res.redirect('/login');
+		res.redirect('/login', {status:'failure', message:'You must be logged in to do that.'});
 		//res.send({status:"failure", message:"You must be logged in to do that."});
 	}
 }
@@ -475,7 +501,7 @@ exports.create = function(req, res){
 		console.log("User is authenticated, allow access to /create page");
 		res.render('create', { title: 'Create a new quiz', user: req.user, serverquiz:{name:"SERVER QUIZ"} });
 	}else{
-		res.redirect("/login", {message: "You need to be logged in to do that!"});
+		res.redirect("/login", {status:'failure', message:'You must be logged in to do that.'});
 	}
 };
 

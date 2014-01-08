@@ -81,8 +81,16 @@
       </div><br>
  
     <!-- End Mobile Header -->
- 
-      
+      <% if(status == 'success'){ %>
+      <div class='row label success'>
+        <h4>Thanks for signing up!</h4>
+      </div>
+      <% } %>
+      <% if(status == 'failure'){ %>
+      <div class='row label alert'>
+        <h4>Sorry, that username/password combination was not found in our database.</h4>
+      </div>
+      <% } %>
       <div class="row">
         <div class="large-12 columns">
           <h1>Log in</h1>

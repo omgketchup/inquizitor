@@ -47,6 +47,7 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ui.bootstrap'
 		})
 		.success(function(response){
 			console.log("GOT CURRENT USER");
+			console.debug(response.user);
 			$scope.user = response.user;
 		})
 		.error(function(response){
@@ -326,7 +327,10 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ui.bootstrap'
 				return;
 			}
 
-			console.log("DO WE HAVE ADVANCED OPTIONS HERE");
+			console.log("DO WE HAVE ADVANCED OPTIONS HERE:  " + $scope.quiz.type);
+			$scope.quiz.advancedOptions = {
+				resultType : $scope.quiz.type
+			};
 			console.debug($scope.quiz.advancedOptions);
 			$scope.savingAllowed = false;
 			var saveQuiz = $scope.quiz;
