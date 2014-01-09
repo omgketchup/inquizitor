@@ -92,14 +92,14 @@
       <div class="row">
         <div class="large-12 columns">
           <h1>Log in</h1>
-          <form id='login_form' action='login' method='post'>
+          <form id='loginform' name='loginform' action='login' method='post' novalidate>
             <label>
               <span>email</span>
-              <input type='text' id='email' name='username' placeholder='email@address.com' />
+              <input ng-model='username' type='text' id='email' name='username' placeholder='email@address.com' required/>
             </label>
             <label>
               <span>password</span>
-              <input type='password' id='pass' name='password' placeholder='Choose something good' />
+              <input ng-model='password' type='password' id='pass' name='password' placeholder='Choose something good' required/>
             </label>
 
 
@@ -110,7 +110,7 @@
                 <span>Remember me</span>
               </label>
               
-            <input class='button' type='submit' value='Go!'/>
+            <input ng-disabled='!loginform.$valid' class='button' type='submit' value='Go!'/>
             </div>
             <div class='large-6 columns'>
               

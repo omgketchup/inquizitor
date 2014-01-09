@@ -1,19 +1,20 @@
+<form id='editform' name='editform' novalidate>
 <div class='row quiz_display'>
 	<h1>{{quiz.name}}</h1>
 	<div class='large-12 columns'>
 		<h4>Title</h4>
-		<input type='text' maxlength='35' placeholder='Quiz Title' ng-model='quiz.name' />
+		<input type='text' ng-maxlength='65' placeholder='Quiz Title' ng-model='quiz.name' required />
 	</div>
 	<div class='large-12 columns'>
-		<h4>Description
-		<textarea type='text' maxlength='200' placeholder='Description and/or instructions' ng-model='quiz.description'></textarea>
+		<h4>Description</h4>
+		<textarea type='text' ng-maxlength='400' placeholder='Description and/or instructions' ng-model='quiz.description'></textarea>
 	</div>
 	<div class='large-12 columns'>
 		<h4>Thank You</h4>
 		<textarea ng-model='quiz.thankyou' placeholder='Text to be shown after someone submits a response.'></textarea>
 	</div>
 	<div class='large-12 columns panel' ng-show='quiz._id'>
-		<h5><span style='font-weight:bold;'>Share this quiz: </span> <a ng-href='/take/{{quiz._id}}'>{{  "localhost:3000/take/" + quiz._id; }}</a></h5>
+		<h5><span style='font-weight:bold;'>Share this quiz: </span> <a ng-href='/take/{{quiz._id}}'>Click here</a></h5>
 	</div>
 	<div class='large-12 columns panel' ng-show='quiz.numba > 0'>
 		<h5><i class='fi-results-demographics'></i> {{quiz.numba}} responses <a ui-sref='analytics'>Click to view</a></h5>
@@ -23,6 +24,7 @@
 			<div class='large-3 columns'>
 				<h5>Result Type</h5>
 				<select 
+					ng-init='quiz.type = quiz.type || quizTypeOptions[0].value'
 					ng-model='quiz.type'
 					ng-options='option.value as option.name for option in quizTypeOptions'
 				>
@@ -31,7 +33,7 @@
 			</div>
 			<div class='large-3 columns'>
 				<h5>Time Limit</h5>
-				<input ng-model='quiz.advancedOptions.timeLimit' type='text' placeholder='hh:mm:ss' />
+				<input ng-model='quiz.advancedOptions.timeLimit' type='text' placeholder='hh:mm:ss'/>
 			</div>
 			<div class='large-3 columns'>
 				<h5>Expiration</h5>
@@ -60,7 +62,7 @@
 			  	</select>
 			</div>
 			<div class='large-8 medium-8 columns'>
-				<input type='text' placeholder='Question text, ex. Who is the best superhero?' ng-model='question.text' />
+				<input type='text' placeholder='Question text, ex. Who is the best superhero?' ng-model='question.text' required />
 			</div>
 			<div class='large-2 medium-2 columns'>
 				<h4 style='text-align:right;'>
@@ -91,7 +93,7 @@
 						</h4>
 					</div>
 					<div class='large-8 medium-8 columns'>
-						<input type='text' class='small' ng-model='choice.text' placeholder='Choice text, ex. Superman'/>
+						<input type='text' class='small' ng-model='choice.text' ng-required='question.type == "multiple_choice"' placeholder='Choice text, ex. Superman'/>
 					</div>
 					<div class='large-2 medium-2 columns'>
 						<h4>
@@ -121,7 +123,8 @@
 	<div class='large-6 columns right' style='text-align:right;'>
 		<h4>
 			<a ng-click='AddQuestion()' class='button' alt='omg' title='nonsense'>New Question</a> 
-			<a ng-click='SaveQuiz()' class='button success' alt='omg' title='nonsense'>Save</a>
+			<a ng-click='SaveQuiz()' ng-disabled='!editform.$valid' class='button success' alt='omg' title='nonsense'>Save</a>
 		</h4>
 	</div>
 </div>
+</form>

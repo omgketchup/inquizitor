@@ -1,3 +1,4 @@
+<form id='quizform' name='quizform' novalidate>
 <div class='row' ng-show='errorMessage.length'>
 	<div class='label alert large-12 columns'>
 		<h1>{{errorMessage}}</h1>
@@ -10,13 +11,15 @@
 	<div class='row quiz_heading'>
 		<div class='large-12 columns'>
 			<h1>{{quiz.name}}</h1>
-			<h4>Instructions for the quiz will go here.  So will the time limit.  You have a certain amount of time to finish this form. This form expires at whatever time on whatever date.</h4>
+			<h4>{{quiz.description}}</h4>
 		</div>
 	</div>
 	<div class='row quiz_contents'>
-		<div class='large-12 columns panel'>
-			<h4>Email - Please enter your email address so we can identify whose answers are whose.</h4>
-			<input ng-model='email' type='text' name='email' id='email' placeholder='abc@xyz.com'></input>
+		<div class='large-12 columns'>
+			<h4 class='panel'>
+				Email - Please enter your email address so we can identify whose answers are whose.
+				<input ng-model='email' type='email' name='email' id='email' placeholder='abc@xyz.com' required></input>
+			</h4>
 		</div>
 		<div class='large-12 columns' ng-repeat='question in quiz.questions'>
 			<h4>{{ question.text }}</h4>
@@ -33,6 +36,7 @@
 								name='{{choice.text}}'
 								ng-change='Debug(question)'
 								type='radio'
+								ng-required='question.type == "multiple_choice"'
 							/>
 							{{choice.text}}
 						</label>
@@ -51,7 +55,7 @@
 			<h4 class='right'>
 				<a class='button radius' href='#'>View Results</a>
 				<a class='button alert' href='#'>Reset</a>
-				<a class='button radius success' ng-class='submitClass' ng-click='SubmitResponse()'>Submit</a>
+				<a class='button radius success' ng-disabled='!quizform.$valid' ng-class='submitClass' ng-click='SubmitResponse()'>Submit</a>
 			</h4>
 		</div>
 	</div>
@@ -59,3 +63,4 @@
 
 	</div>
 </div>
+</form>

@@ -52,3 +52,7 @@ label{
 .gray{
 	color:lightGray;
 }
+
+input.ng-invalid, textarea.ng-invalid, select.ng-invalid {
+  border: 1px solid red;
+}

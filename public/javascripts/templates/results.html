@@ -18,7 +18,12 @@
 <div class='row' ng-show='!errorMessage && quiz'>
 	<hr/>
 	<div class='large-12 columns panel' ng-show='quiz'>
-
+		<div class='row' ng-show='quiz.thankyou'>
+			<div class='large-12 columns'>
+				<h3>{{quiz.thankyou}}</h3>
+			</div>
+			<hr/>
+		</div>
 		<div class='row'>
 			<div class='large-12 columns'>
 				<h2>{{quiz.name}}</h2>

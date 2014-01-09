@@ -15,7 +15,7 @@
     <link rel='stylesheet' href='/vendor/foundation/css/foundation.min.css' />
     <link rel='stylesheet' href='/stylesheets/stylish.css' />
   </head>
-  <body>
+  <body ng-app='app' ng-controller='SignupCtrl'>
     
 <!-- Navigation -->
  
@@ -84,21 +84,29 @@
       <div class="row">
         <div class="large-12 columns">
           <h1>Sign Up</h1>
-          <h4>All we need from you is an email and a password. Please be careful typing it in - we don't have a confirm password field because we trust you.</h4>
-          <form id='login_form' method='POST' action='/signup'>
+          <h4>All we need from you is an email and a password.</h4>
+          <% if(status == 'failure'){ %>
+            <div class='label alert'>
+              <h4><%= message %></h4>
+            </div>
+          <% } %>
+
+          <form id='loginform' name='loginform' method='POST' action='/signup' novalidate>
             <label>
               <span>email</span>
-              <input type='text' id='email' name='email' placeholder='email@address.com' />
+              <input ng-model='email' type='email' id='email' name='email' placeholder='email@address.com' required />
             </label>
             <label>
               <span>password</span>
-              <input type='password' id='pass' name='pass' placeholder='Choose something good' />
+              <input ng-model='pass' type='password' id='pass' name='pass' placeholder='Choose something good' ng-minlength='5' ng-maxlength='25' required />
             </label>
-
+            <label>
+              <span>confirm password</span>
+              <input ng-model='confirmpass' type='password' id='confirmpass' name='confirmpass' placeholder='Make sure you typed what you think you typed...' ng-minlength='5' ng-maxlength='25' required data-match='pass' />
+            </label>
           <div class='row'>
             <div class='large-6 columns'>
-              <input type='submit' class='button success' value='Sign me up!' />
-              <!-- <a ng-click="SignUp()" class='button success'>Sign me up!</a> -->
+              <input type='submit' ng-disabled='!loginform.$valid' class='button success' value='Sign me up!' />
             </div>
             <div class='large-6 columns'>
               
@@ -107,39 +115,10 @@
           </form>
 
         </div>
-      </div>
- 
-    <!-- End Content -->
- 
- 
-    <!-- Footer -->
- 
-    <!-- End Footer -->
- 
+      </div> 
     </div>
   </div>
- 
- <!-- <script>
-  document.write('<script src=js/vendor/' +
-  ('__proto__' in {} ? 'zepto' : 'jquery') +
-  '.js><\/script>')
-  </script>
-  <script src="js/foundation.min.js"></script>
-  <script>
-    $(document).foundation();
-  </script>
-<!-- End Footer -->
-    <script type='text/javascript' src='/vendor/angular/angular.min.js'></script>
-    <script type='text/javascript' src='/javascripts/create.js'></script>
-
-    <!-- 
-    <script src="../assets/js/jquery.js"></script>
-    <script src="../assets/js/templates/foundation.js"></script>
-    <script>
-      $(document).foundation();
-
-      var doc = document.documentElement;
-      doc.setAttribute('data-useragent', navigator.userAgent);
-    </script> -->
-  </body>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular.min.js"></script>
+  <script src="./javascripts/supersimple.js"></script>
+</body>
 </html>

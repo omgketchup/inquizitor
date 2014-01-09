@@ -3,6 +3,7 @@ var SweetQuiz = require('../models/quiz.js');
 var QuizResponse = require('../models/quiz_response.js');
 var User = require('../models/user.js');
 var passport = require('passport');
+var check = require('express-validator');
 
 var ObjectId = require('mongoose').Types.ObjectId; 
 
@@ -81,8 +82,16 @@ exports.currentuser = function(req, res){
 exports.signup = function(req, res){
 	if(req.method == "POST"){
 		//create a user
-		console.log("About to search for: ");
-		console.dir(req.body);
+		req.checkBody('email', 'Invalid email').notEmpty().isEmail();
+		req.checkBody('pass', 'Invalid password').len(5,25);
+		var valErrors = req.validationErrors();
+		if(valErrors){
+			console.dir(valErrors);
+			res.render('signup', {status:"failure", message:"Invalid email address or password " + valErrors, css:"alert"});
+			return;
+		}
+
+
 		User.findOne({email: req.body.email}, function(err, user){
 			if(err){ console.log("LOGGING MONGODB ERROR while checking to see if we can create a new user: " + err)}
 			if(user == null){
@@ -91,7 +100,8 @@ exports.signup = function(req, res){
 				newuser.save(function(err, newuser){
 					if(err){ console.log("LOGGING MONGODB ERROR while saving a new user: " + err)}
 					console.log("Just saved newuser: " + newuser.email);
-					res.render('login', {status:"success", message:"That email address already exists in our system", css:"success"})
+					//res.redirect('/app');
+					res.render('login', {status:"success", message:"Thanks for signing up!", css:"success"})
 				});
 			}else{
 				//user was already found in the system.
@@ -140,7 +150,7 @@ exports.postquiz = function(req, res){ //async
 			function(err, fin, details, extra){
 				console.log("Finish Upsert Handler");
 				if(err){ 
-					console.log("Error.");
+					console.log("Error. " + err);
 					res.send({status:"failure", message:"Couldn't update that quiz. " + err}); 
 				}else{
 					console.log("Success");
@@ -320,21 +330,19 @@ exports.postresponse = function(req, res){
 exports.getresponses = function(req, res){
 	//you must be authenticated
 	//you must be the author of the quiz
-	console.log("Getting responses");
-	console.dir(req.query);
 	var id = req.query.id;
 	if(req.isAuthenticated()){
-		console.log("User is authenticated.");
+		//console.log("User is authenticated.");
 		SweetQuiz.findOne({_id: id}, function(err, foundQuiz){
 			if(err){ 
-				console.log("Could not find a quiz that matched that ID while making sure the current user is that quiz's author."); 
+				//console.log("Could not find a quiz that matched that ID while making sure the current user is that quiz's author."); 
 				res.send({status:'failure', message: 'Sorry, could not find a quiz to match that ID.'});
 				return; 
 			}
 			else{
 				if(foundQuiz != null){
 					if(foundQuiz.author == req.user.email){
-						console.log("The current user is the author of this!  Now we can try to find all the responses to this quiz.");
+						//console.log("The current user is the author of this!  Now we can try to find all the responses to this quiz.");
 
 						QuizResponse.find(
 							{
@@ -344,10 +352,8 @@ exports.getresponses = function(req, res){
 								if(err){ console.log("Looked up responses to the legit quiz, but got an error: " + err); return; }
 								if(foundResponses != null){
 
-									console.log("Gonna figure this shit out right here...");
+									//CALCULATE PERCENTAGES FOR MULTIPLE CHOICE QUIZ RESULTS WITH ANSWERS
 									if(foundQuiz.type == 'poll' || foundQuiz.type == 'Poll'){
-										console.log("THIS IS A POLL, WE CAN FIGURE OUT IF RESPONSES ARE CORRECT OR NOT");
-										console.dir(foundResponses);
 										for(var q = 0; q<foundResponses.length; q++){
 											var oneResponse = foundResponses[q];
 											var numCorrect = 0;
@@ -364,7 +370,8 @@ exports.getresponses = function(req, res){
 												var answer = oneResponse.answers[i];
 
 												var correct = false;
-												if(answer.response == rightAnswer.text){
+												console.log("RightAnswer: " + rightAnswer);
+												if(typeof(rightAnswer) != 'undefined' && answer.response == rightAnswer.text){
 													correct = true;
 													numCorrect++;
 												}
@@ -379,21 +386,21 @@ exports.getresponses = function(req, res){
 									
 
 
-									console.log("FoundResponses was not null, sweet! " + foundResponses.length);
+									//console.log("FoundResponses was not null, sweet! " + foundResponses.length);
 									res.send({status:'success', data:{responses:foundResponses, quiz:foundQuiz}});
 								}else{
-									console.log("FoundResponses is null, what the hell guy do better code stuff");
+									//console.log("FoundResponses is null, what the hell guy do better code stuff");
 									res.send({status:'failure', message:"Sorry, no responses found for that."});
 								}
 							}
 						);
 
 					}else{
-						console.log("The current user is NOT the author!  How did this even happen?");
+						//console.log("The current user is NOT the author!  How did this even happen?");
 						res.send({status:'failure', message:"Sorry, but you're not allowed to see those responses."});
 					}
 				}else{
-					console.log("FoundQuiz was null you did something wrong!");
+					//console.log("FoundQuiz was null you did something wrong!");
 					res.send({status:'failure', message:"Sorry, that doesn't seem to be a valid thing to ask for."});
 				}
 			}

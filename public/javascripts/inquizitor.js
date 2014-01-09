@@ -190,6 +190,7 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ui.bootstrap'
 			{name:"Poll", value:"poll"},
 			{name:"Self", value:"self"}
 		]
+		console.log("Set the quiz type to options 0: " + $scope.quiz.type);
 
 		$scope.typeOptions = [
 			{name:"Multiple Choice", value:"multiple_choice"},
