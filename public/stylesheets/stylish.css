@@ -56,3 +56,6 @@ label{
 input.ng-invalid, textarea.ng-invalid, select.ng-invalid {
   border: 1px solid red;
 }
+input.ng-pristine, textarea.ng-pristine, select.ng-pristine {
+	border: 1px solid #ccc;
+}

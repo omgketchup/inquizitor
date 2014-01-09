@@ -11,10 +11,7 @@ exports.main = function(req, res){
 	res.render('templates/main');
 }
 exports.apphome = function(req, res){
-
-	console.dir(req.user);
 	if(req.isAuthenticated()){
-		console.log("user is: " + req.user.email);
 		res.render('templates/app');
 	}else{
 		res.render('login', {status:'failure', message:'Sorry, something didnt work out there'});
