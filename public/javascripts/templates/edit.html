@@ -1,5 +1,8 @@
 <form id='editform' name='editform' novalidate>
-<div class='row quiz_display'>
+<div class='row' ng-show='!quiz'>
+	<h1>Loading...</h1>
+</div>
+<div class='row quiz_display' ng-show='quiz'>
 	<h1>{{quiz.name}}</h1>
 	<div class='large-12 columns'>
 		<h4>Title</h4>

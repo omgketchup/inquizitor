@@ -1,66 +1,71 @@
-<form id='quizform' name='quizform' novalidate>
-<div class='row' ng-show='errorMessage.length'>
-	<div class='label alert large-12 columns'>
-		<h1>{{errorMessage}}</h1>
-	</div>
-	<div class='large-12 columns'>
-		<h4><a ng-click='TakeMeHome()'>Go back home.</a></h4>
-	</div>
+<div class='row' ng-show='!quiz'>
+	<h1>Loading...</h1>
 </div>
-<div class='row' ng-show='!errorMessage'>
-	<div class='row quiz_heading'>
-		<div class='large-12 columns'>
-			<h1>{{quiz.name}}</h1>
-			<h4 ng-bind-html='quiz.description'>{{quiz.description}}</h4>
-		</div>
-	</div>
-	<div class='row quiz_contents'>
-		<div class='large-12 columns'>
-			<h4 class='panel'>
-				Email - Please enter your email address so we can identify whose answers are whose.
-				<input ng-model='email' type='email' name='email' id='email' placeholder='abc@xyz.com' required></input>
-			</h4>
-		</div>
-		<div class='large-12 columns' ng-repeat='question in quiz.questions'>
-			<h4 ng-bind-html='question.text'></h4>
-			<textarea ng-model="question.response" ng-show='question.type != "multiple_choice"'></textarea>
-			<div class='large-12 columns' ng-show='question.type == "multiple_choice"'>
-				<ul class='large-block-grid-5 medium-block-grid-5 small-block-grid-5'>
-					<li ng-repeat='choice in question.choices' >
-						<label style='text-align:center;'>
-							<img ng-show='choice.img' ng-src='{{choice.img}}' ng-attr-alt='{{choice.text}}' ng-attr-title='{{choice.text}}' style='margin-bottom:5px;' />
-							<input 
-								style='display:block; margin-bottom:0px; margin-left:auto; margin-right:auto;'
-								ng-model ='question.response'
-								value='{{choice.text}}'
-								name='{{choice.text}}'
-								ng-change='Debug(question)'
-								type='radio'
-								ng-required='question.type == "multiple_choice"'
-							/>
-							{{choice.text}}
-						</label>
-					</li>
-				</ul>
+<div class='row' ng-show='quiz'>
+	<form id='quizform' name='quizform' novalidate>
+		<div class='row' ng-show='errorMessage.length'>
+			<div class='label alert large-12 columns'>
+				<h1>{{errorMessage}}</h1>
 			</div>
-			<!--<select 
-				ng-model = "question.response"
-				ng-show='question.type == "multiple_choice"'
-				ng-options="choice.text for choice in question.choices"
-			> -->
-				<!-- load options from the app somehow -->
-			<!-- </select>-->
+			<div class='large-12 columns'>
+				<h4><a ng-click='TakeMeHome()'>Go back home.</a></h4>
+			</div>
 		</div>
-		<div class='large-12 columns'>
-			<h4 class='right'>
-				<a class='button radius' href='#'>View Results</a>
-				<a class='button alert' href='#'>Reset</a>
-				<a class='button radius success' ng-disabled='!quizform.$valid' ng-class='submitClass' ng-click='SubmitResponse()'>Submit</a>
-			</h4>
-		</div>
-	</div>
-	<div class='row quiz_footer'>
+		<div class='row' ng-show='!errorMessage'>
+			<div class='row quiz_heading'>
+				<div class='large-12 columns'>
+					<h1>{{quiz.name}}</h1>
+					<h4 ng-bind-html='quiz.description'>{{quiz.description}}</h4>
+				</div>
+			</div>
+			<div class='row quiz_contents'>
+				<div class='large-12 columns'>
+					<h4 class='panel'>
+						Email - Please enter your email address so we can identify whose answers are whose.
+						<input ng-model='email' type='email' name='email' id='email' placeholder='abc@xyz.com' required></input>
+					</h4>
+				</div>
+				<div class='large-12 columns' ng-repeat='question in quiz.questions'>
+					<h4 ng-bind-html='question.text'></h4>
+					<textarea ng-model="question.response" ng-show='question.type != "multiple_choice"'></textarea>
+					<div class='large-12 columns' ng-show='question.type == "multiple_choice"'>
+						<ul class='large-block-grid-5 medium-block-grid-5 small-block-grid-5'>
+							<li ng-repeat='choice in question.choices' >
+								<label style='text-align:center;'>
+									<img ng-show='choice.img' ng-src='{{choice.img}}' ng-attr-alt='{{choice.text}}' ng-attr-title='{{choice.text}}' style='margin-bottom:5px;' />
+									<input 
+										style='display:block; margin-bottom:0px; margin-left:auto; margin-right:auto;'
+										ng-model ='question.response'
+										value='{{choice.text}}'
+										name='{{choice.text}}'
+										ng-change='Debug(question)'
+										type='radio'
+										ng-required='question.type == "multiple_choice"'
+									/>
+									{{choice.text}}
+								</label>
+							</li>
+						</ul>
+					</div>
+					<!--<select 
+						ng-model = "question.response"
+						ng-show='question.type == "multiple_choice"'
+						ng-options="choice.text for choice in question.choices"
+					> -->
+						<!-- load options from the app somehow -->
+					<!-- </select>-->
+				</div>
+				<div class='large-12 columns'>
+					<h4 class='right'>
+						<a class='button radius' href='#'>View Results</a>
+						<a class='button alert' href='#'>Reset</a>
+						<a class='button radius success' ng-disabled='!quizform.$valid' ng-class='submitClass' ng-click='SubmitResponse()'>Submit</a>
+					</h4>
+				</div>
+			</div>
+			<div class='row quiz_footer'>
 
-	</div>
+			</div>
+		</div>
+		</form>
 </div>
-</form>
