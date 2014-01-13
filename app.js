@@ -21,7 +21,10 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.use(express.favicon());
 app.use(express.logger('dev'));
-app.use(express.bodyParser());
+app.use(express.bodyParser({
+	keepExtensions: true,
+	uploadDir: __dirname + '/uploads'
+}));
 app.use(check());
 app.use(express.methodOverride());
 app.use(express.cookieParser('your secret here'));
@@ -129,6 +132,8 @@ app.get('/results/:id/:email', routes.getresults);
 
 //OTHER ROUTES
 app.get('/create', routes.create);
+
+app.post('/upload', routes.uploadimage);
 
 app.get('/view', routes.viewquiz);
 app.get('/view/:id', routes.viewquiz);

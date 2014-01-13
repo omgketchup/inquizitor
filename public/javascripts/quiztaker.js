@@ -5,7 +5,7 @@
  *
 */
 
-var app = angular.module('app', [ 'ngAnimate','ui.router'
+var app = angular.module('app', [ 'ngAnimate','ui.router', 'ngSanitize'
 	])
 	.config(function($stateProvider, $urlRouterProvider, $locationProvider){
 		$urlRouterProvider.otherwise('/take');
@@ -38,10 +38,10 @@ var app = angular.module('app', [ 'ngAnimate','ui.router'
 		})
 	})
 	.controller('TakeCtrl', function($scope, $http, $stateParams, $state){
-		console.log("Using the TakeCtrl");
+		//console.log("Using the TakeCtrl");
 		var id = $stateParams.id;
-		console.log("About to view a quiz with the _id: " + id);
-		console.debug($stateParams);
+		//console.log("About to view a quiz with the _id: " + id);
+		//console.debug($stateParams);
 		$scope.submitClass = '';
 		$http({
 			url: '/view',
@@ -49,30 +49,30 @@ var app = angular.module('app', [ 'ngAnimate','ui.router'
 			params: {id:id}
 		})
 		.success(function(response){
-			console.log("GOT ME A QUIZ BACK FROM /quiz/" + id);
+			//console.log("GOT ME A QUIZ BACK FROM /quiz/" + id);
 			if(response.status == 'success'){
-				console.log("Successfulllllly!");
+				//console.log("Successfulllllly!");
 				$scope.quiz = response.data;
 			}else{
-				console.log("Shhh, don't tell anyone I suck at this...");
+				//console.log("Shhh, don't tell anyone I suck at this...");
 				$scope.errorMessage = response.message;
 			}
-			console.dir(response);
+			//console.dir(response);
 		})
 		.error(function(response){
-			console.log("GET ME A ERROR BACK FROM /quiz/" + id);
-			console.dir(response);
+			//console.log("GET ME A ERROR BACK FROM /quiz/" + id);
+			//console.dir(response);
 			$scope.errorMessage = response.message;
 		});
 
 		$scope.Debug = function(o){
-			console.log("DEBUG");
+			/*console.log("DEBUG");
 			console.debug(o);
-			console.log("END DEBUG");
+			console.log("END DEBUG");*/
 		}
 
 		$scope.SubmitResponse = function(){
-			console.log("About to submit the responses to this quiz.  Maybe validate first?");
+			//console.log("About to submit the responses to this quiz.  Maybe validate first?");
 			$scope.submitClass = 'disabled';
 			var q = $scope.quiz;
 			var submission = {email: $scope.email, responseTo: $scope.quiz._id};
@@ -94,8 +94,8 @@ var app = angular.module('app', [ 'ngAnimate','ui.router'
 				answers.push(response);
 			}
 			submission.answers = answers;
-			console.debug(submission);
-			console.log("Compiled the list of responses, there were " + answers.length);
+			//console.debug(submission);
+			//console.log("Compiled the list of responses, there were " + answers.length);
 			$http({
 				url:"/response",
 				method:"POST",
@@ -103,21 +103,21 @@ var app = angular.module('app', [ 'ngAnimate','ui.router'
 			})
 			.success(function(response){
 				$scope.submitClass = '';
-				console.log("SUCCESSFULLY SUBMITTED A RESPONSE TO THE QUIZ BY THE GUY: " + $scope.email);
+				//console.log("SUCCESSFULLY SUBMITTED A RESPONSE TO THE QUIZ BY THE GUY: " + $scope.email);
 				if($scope.quiz.advancedOptions.resultType == 'poll'){
-					console.log("Should redirect to the poll results view");
+					//console.log("Should redirect to the poll results view");
 					$state.go('results-quiz-email', {id: q._id, email:$scope.email});
 				}else if($scope.quiz.advancedOptions.resultType == 'self'){
-					console.log("Should redirect to the self results view");
+					//console.log("Should redirect to the self results view");
 					$state.go('results-quiz-email', {id: q._id, email:$scope.email});
 				}else{
-					console.log("Should redirect to the general results view");
+					//console.log("Should redirect to the general results view");
 					//console.log($scope.email);
 					$state.go('results-quiz-email', {id: q._id, email:$scope.email});
 				}
 			})
 			.error(function(response){
-				console.log("ERROR COMING BACK FROM SERVER...");
+				//console.log("ERROR COMING BACK FROM SERVER...");
 				$scope.submitClass = '';
 			});
 		}
@@ -127,11 +127,11 @@ var app = angular.module('app', [ 'ngAnimate','ui.router'
 		}
 	})
 	.controller('ResultsCtrl', function($scope, $http, $state, $stateParams){
-		console.log("USING THE RESULTS CONTROLLER");
-		console.debug($stateParams);
+		//console.log("USING THE RESULTS CONTROLLER");
+		//console.debug($stateParams);
 
 		$scope.GetResults = function(){
-			console.log("About to look up results.");
+			//console.log("About to look up results.");
 			if($scope.email == '' || $scope.email == null){
 				console.log("Email address no good!");
 				return;
@@ -142,17 +142,17 @@ var app = angular.module('app', [ 'ngAnimate','ui.router'
 				params: {id: $stateParams.id, email: $scope.email}
 			})
 			.success(function(response){
-				console.log("Successful response when looking up results");
+				//console.log("Successful response when looking up results");
 				if(response.status == 'success'){
-					console.log("WOO WOO");
+					//console.log("WOO WOO");
 					$scope.quiz = response.data.quiz;
 					$scope.responses = response.data.responses;
 				}else{
-					console.log("App said aww hell naw: " + response.message);
+					//console.log("App said aww hell naw: " + response.message);
 				}
 			})
 			.error(function(response){
-				console.log("Error response when looking up results");
+				//console.log("Error response when looking up results");
 			});
 		}
 
@@ -167,23 +167,23 @@ var app = angular.module('app', [ 'ngAnimate','ui.router'
 					params: {id: $stateParams.id, email: $stateParams.email}
 				})
 				.success(function(response){
-					console.log("Successful response when looking up results");
+					//console.log("Successful response when looking up results");
 					if(response.status == 'success'){
 						console.log("WOO WOO");
 						$scope.quiz = response.data.quiz;
 						$scope.responses = response.data.responses;
 					}else{
-						console.log("App said aww hell naw: " + response.message);
+						//console.log("App said aww hell naw: " + response.message);
 					}
 				})
 				.error(function(response){
-					console.log("Error response when looking up results");
+					//console.log("Error response when looking up results");
 				});
 			}else{
-				console.log("Invalid quiz ID to auto-load");
+				//console.log("Invalid quiz ID to auto-load");
 			}
 		}else{
-			console.log("Invalid email address to auto-load");
+			//console.log("Invalid email address to auto-load");
 		}
 	})
 ;

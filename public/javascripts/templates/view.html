@@ -11,7 +11,7 @@
 	<div class='row quiz_heading'>
 		<div class='large-12 columns'>
 			<h1>{{quiz.name}}</h1>
-			<h4>{{quiz.description}}</h4>
+			<h4 ng-bind-html='quiz.description'>{{quiz.description}}</h4>
 		</div>
 	</div>
 	<div class='row quiz_contents'>
@@ -22,7 +22,7 @@
 			</h4>
 		</div>
 		<div class='large-12 columns' ng-repeat='question in quiz.questions'>
-			<h4>{{ question.text }}</h4>
+			<h4 ng-bind-html='question.text'></h4>
 			<textarea ng-model="question.response" ng-show='question.type != "multiple_choice"'></textarea>
 			<div class='large-12 columns' ng-show='question.type == "multiple_choice"'>
 				<ul class='large-block-grid-5 medium-block-grid-5 small-block-grid-5'>

@@ -5,6 +5,8 @@ var User = require('../models/user.js');
 var passport = require('passport');
 var check = require('express-validator');
 
+var fs = require('fs');
+
 var ObjectId = require('mongoose').Types.ObjectId; 
 
 exports.main = function(req, res){
@@ -18,7 +20,29 @@ exports.apphome = function(req, res){
 	}
 }
 
+exports.uploadimage = function(req, res){
+	if(!req.isAuthenticated()){
+		console.log("User was not authenticated wtffff");
+		res.send({status:'failure', message:'Failed authentication before upload.'});
+		return;
+	}
 
+	var newpath = './public/uploads/' + req.files.file.name
+
+	var source = fs.createReadStream(req.files.file.path);
+	var dest = fs.createWriteStream(newpath);
+
+	source.pipe(dest);
+	source.on('end', function() { 
+		var fullURL = req.protocol + "://" + req.get('host') + '/uploads/' + req.files.file.name;
+		res.send({status:'success', message:'debug text', data: fullURL});
+	});
+	source.on('error', function(err) {
+		res.send({status:'failure', message:'Could not upload file. ' + err})
+	});
+
+	console.log("Finished uploading an image.");
+}
 
 /* FUCK EVERYTHING BELOW THIS */
 
@@ -92,7 +116,7 @@ exports.signup = function(req, res){
 		User.findOne({email: req.body.email}, function(err, user){
 			if(err){ console.log("LOGGING MONGODB ERROR while checking to see if we can create a new user: " + err)}
 			if(user == null){
-				//user is allowed to be created, so save that motherfucker.
+				//user is allowed to be created
 				var newuser = new User(req.body);
 				newuser.save(function(err, newuser){
 					if(err){ console.log("LOGGING MONGODB ERROR while saving a new user: " + err)}
@@ -522,7 +546,6 @@ exports.quiztest = function(req, res){
 	console.log("Saveable " + saveable.name);
 	console.dir(saveable);
 	saveable.save(function(err, saveable){
-		console.log("Holy shit did it work");
 		SweetQuiz.find(function(err, quizzes){
 			if(err) res.send("No quizzes found, something's screwy.");
 			console.log("Found " + quizzes.length + " quizzes.");

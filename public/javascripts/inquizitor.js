@@ -104,7 +104,7 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ui.bootstrap'
 
 		})
 		.error(function(response){
-			console.log("Something fucked up.");
+			console.log("Something is not right.");
 		})
 
 
@@ -156,7 +156,7 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ui.bootstrap'
 			
 		}
 	})
-	.controller('ModalInstanceCtrl', function($scope, $modalInstance, data){
+	.controller('ModalInstanceCtrl', function($scope, $http, $fileUpload, $modalInstance, data){
 		console.log("Awwwwwwwwwwwwwww yeah.");
 		console.log(data.choice.img);
 		console.log("Data comin out.");
@@ -164,12 +164,43 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ui.bootstrap'
 		if(typeof(data.choice.img) != 'undefined'){
 			$scope.form = {newurl:""};
 			$scope.form.newurl = data.choice.img;
+		}else{
+			$scope.form = {newurl: ''}
 		}
 		$scope.data = data;
-		//ONLY WORING FOR THE FIRST ITEM IN EACH QUESTION FIX THIS AFTER LUNCH.
+		$scope.formy = {};
+		$scope.UploadImage = function(files){
+			console.log("Uploading image...");
+			console.dir(files[0]);
+			var fd = new FormData();
+
+		    //Take the first selected file
+		    fd.append("file", files[0]);
+
+		    $http.post('/upload', fd, {
+		        headers: {'Content-Type': undefined },
+		        transformRequest: angular.identity
+		    })
+		    .success( function(response){
+		    	if(response.status == 'success'){
+		    		data.choice.img = response.data;
+		    		$scope.form.newurl = response.data;
+
+		    		if(url == '' || typeof(url) == 'undefined'){
+						alert("You need to use an existing link or upload a file!");
+						return;
+					}
+					data.choice.img = '';
+					data.choice.img = url;
+		    	}else{
+		    	}
+		    })
+		    .error( function(response){
+		    	console.log("Error upload!");
+		    });
+		}
+
 		$scope.AttachImage = function(url){
-			console.log("FUCKIN URL IS: " + url);
-			console.log("Attempting to attach an item.");
 			if(url == '' || typeof(url) == 'undefined'){
 				alert("You need to use an existing link or upload a file!");
 				return;
@@ -367,6 +398,34 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ui.bootstrap'
 			});
 
 		}
-
 	})
+	.directive('fileModel', ['$parse', function ($parse) {
+	    return {
+	        restrict: 'A',
+	        link: function(scope, element, attrs) {
+	            var model = $parse(attrs.fileModel);
+	            var modelSetter = model.assign;
+	            
+	            element.bind('change', function(){
+	                scope.$apply(function(){
+	                    modelSetter(scope, element[0].files[0]);
+	                });
+	            });
+	        }
+	    };
+	}])
+	.service('$fileUpload', ['$http', function ($http) {
+	    this.uploadFileToUrl = function(file, uploadUrl){
+	        var fd = new FormData();
+	        fd.append('file', file);
+	        $http.post(uploadUrl, fd, {
+	            transformRequest: angular.identity,
+	            headers: {'Content-Type': undefined}
+	        })
+	        .success(function(){
+	        })
+	        .error(function(){
+	        });
+	    }
+	}])
 ;

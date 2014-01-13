@@ -1,3 +1,4 @@
+<form>
 <div class="modal-header">
     <h3>Attach an image</h3>
 </div>
@@ -11,7 +12,8 @@
         <p>
             Please select a .jpg, .png, or .gif file from your computer to use as a graphical companion to this choice.  This can really spruce up your quiz!
         </p>
-        <p style='text-align:center;'><input type='file' class='disabled'/></p>
+        <p style='text-align:center;'><input type="file" name='file' onchange='angular.element(this).scope().UploadImage(this.files)'/></p>
+        <p style='text-align:center;'><a ng-click='UploadImage()' class='button'>Upload</a></p>
     </div>
     
     <hr/>
@@ -27,3 +29,4 @@
     <button class="button alert" ng-click="Cancel()">Cancel</button>
     <button class="button success radius" ng-click="AttachImage(form.newurl)">Attach</button>
 </div>
+</form>
