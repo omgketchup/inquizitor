@@ -185,7 +185,7 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ui.bootstrap'
 		    	if(response.status == 'success'){
 		    		data.choice.img = response.data;
 		    		$scope.form.newurl = response.data;
-
+		    		var url = $scope.form.newurl;
 		    		if(url == '' || typeof(url) == 'undefined'){
 						alert("You need to use an existing link or upload a file!");
 						return;
