@@ -8,7 +8,7 @@
 var app = angular.module('app', [ 'ngAnimate','ui.router', 'ngSanitize'
 	])
 	.config(function($stateProvider, $urlRouterProvider, $locationProvider){
-		console.log("Goddammit");
+		//console.log("Goddammit");
 		$urlRouterProvider.otherwise('take');
 		
 		$stateProvider
@@ -44,23 +44,23 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ngSanitize'
 		})
 
 		if(window.history && window.history.pushState){
-		    console.log("HTML 5 mode is true...");
+		    //console.log("HTML 5 mode is true...");
 		}
-		console.log("Defined states... should pick one and use its controller...");
+		//console.log("Defined states... should pick one and use its controller...");
 		$locationProvider.html5Mode(true);
 	})
 	.controller('TakeCtrl', function($scope, $http, $stateParams, $state){
 		$scope.message = "Loading...";
-		console.log("Using the TakeCtrl");  
+		//console.log("Using the TakeCtrl");  
 
 		window.top.postMessage("change", "*");
-		console.log("Just posted message to top");
+		//console.log("Just posted message to top");
 
 		var id = $stateParams.id;
 		if(typeof($stateParams.id) == 'undefined' || id == ''){
 			$scope.message = "Sorry, we couldn't figure that one out.  Check the link and try again.";
 		}else{
-			console.log("ID WAS NOT UNDEFINED!:  " + id);
+			//console.log("ID WAS NOT UNDEFINED!:  " + id);
 		}
 
 
@@ -97,14 +97,14 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ngSanitize'
 
 		$scope.SubmitResponse = function(){
 			if($scope.quizform){
-				console.log("Got it");
+				//console.log("Got it");
 				$scope.val = 'showvalidation';
 				if(!$scope.quizform.$valid){
-					console.log("QUIZ IS NOT VALID, DONT SUBMIT");
+					//console.log("QUIZ IS NOT VALID, DONT SUBMIT");
 					$scope.validationError = "You're missing a required field! Make sure you enter your email, and answer all the questions.";
 					return;
 				}else{
-					console.log("All good");
+					//console.log("All good");
 				}
 			}else{
 				console.log("NO QUIZFORMY WTF");
@@ -164,19 +164,19 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ngSanitize'
 			window.location = '/';
 		}
 
-		console.log("Finished TakeCtrl...");
+		//console.log("Finished TakeCtrl...");
 	})
 	.controller('ResultsCtrl', function($scope, $http, $state, $stateParams, $location, $anchorScroll){
-		console.log("USING THE RESULTS CONTROLLER");
+		//console.log("USING THE RESULTS CONTROLLER");
 
 
 		window.top.postMessage("change", "*");
-		console.log("Just posted message to top");
+		//console.log("Just posted message to top");
 
 		$scope.GetResults = function(){
 			//console.log("About to look up results.");
 			if($scope.email == '' || $scope.email == null){
-				console.log("Email address no good!");
+				//console.log("Email address no good!");
 				return;
 			}
 			$http({
@@ -212,7 +212,7 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ngSanitize'
 				.success(function(response){
 					//console.log("Successful response when looking up results");
 					if(response.status == 'success'){
-						console.log("WOO WOO");
+						//console.log("WOO WOO");
 						$scope.quiz = response.data.quiz;
 						$scope.responses = response.data.responses;
 					}else{
