@@ -164,14 +164,12 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ngSanitize'
 	})
 	.controller('ResultsCtrl', function($scope, $http, $state, $stateParams, $location, $anchorScroll){
 		console.log("USING THE RESULTS CONTROLLER");
-		//console.debug($stateParams);
-		$location.hash('body');
-		$anchorScroll();
-		var framer = window.parent;
-		framer.scrollTop = 0;
-		console.log("Scrolled parent to top");
+		
+		console.log("Attempting to scroll parent window to the top");
+		window.parent.$("body, html", window.parent).animate({scrollTop:0}, 'slow');
 
-		console.log("Shoulda scrolled to top...");
+		//console.log("Attempting to scroll current document to the top");
+
 		$scope.GetResults = function(){
 			//console.log("About to look up results.");
 			if($scope.email == '' || $scope.email == null){
