@@ -162,10 +162,16 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ngSanitize'
 
 		console.log("Finished TakeCtrl...");
 	})
-	.controller('ResultsCtrl', function($scope, $http, $state, $stateParams){
+	.controller('ResultsCtrl', function($scope, $http, $state, $stateParams, $location, $anchorScroll){
 		console.log("USING THE RESULTS CONTROLLER");
 		//console.debug($stateParams);
+		$location.hash('body');
+		$anchorScroll();
+		var framer = window.parent;
+		framer.scrollTop = 0;
+		console.log("Scrolled parent to top");
 
+		console.log("Shoulda scrolled to top...");
 		$scope.GetResults = function(){
 			//console.log("About to look up results.");
 			if($scope.email == '' || $scope.email == null){
