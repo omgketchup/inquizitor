@@ -1,4 +1,4 @@
-<div class='row' ng-show='quiz'>
+<div class='row' data-ng-show='quiz'>
 	<h1>{{quiz.name}}</h1>
 	<h3>Responses by: {{email}}</h3>
 	<h5>{{response.submitted | date:'h:mma, EEE MMM d, yyyy'}}</h5>
@@ -6,7 +6,7 @@
 </div>
 <div class='row panel'>
 	<div class='large-12 columns' >
-		<div class='row' ng-repeat='answer in response.answers'>
+		<div class='row' data-ng-repeat='answer in response.answers'>
 			<div class='large-10 columns'>
 				<div class='row'>
 					<div class='large-12 columns'>
@@ -17,10 +17,10 @@
 					</div>
 				</div>
 			</div>
-			<div class='large-2 columns' ng-show='answer.isCorrect'>
+			<div class='large-2 columns' data-ng-show='answer.isCorrect'>
 				RIGHT
 			</div>
-			<div class='large-2 columns' ng-show='!answer.isCorrect'>
+			<div class='large-2 columns' data-ng-show='!answer.isCorrect'>
 				WRONG
 			</div>
 			<div class='large-12 columns'>

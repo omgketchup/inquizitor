@@ -5,28 +5,28 @@
 <div class="row modal-body">
 
     <h3>{{data.question.text}}</h3>
-    <div class='large-12 columns' ng-show='data.choice.img'>
-        <img ng-src='{{data.choice.img}}' />
+    <div class='large-12 columns' data-ng-show='data.choice.img'>
+        <img data-ng-src='{{data.choice.img}}' />
     </div>
     <div class='large-12 columns'>
         <p>
             Please select a .jpg, .png, or .gif file from your computer to use as a graphical companion to this choice.  This can really spruce up your quiz!
         </p>
         <p style='text-align:center;'><input type="file" name='file' onchange='angular.element(this).scope().UploadImage(this.files)'/></p>
-        <p style='text-align:center;'><a ng-click='UploadImage()' class='button'>Upload</a></p>
+        <p style='text-align:center;'><a data-ng-click='UploadImage()' class='button'>Upload</a></p>
     </div>
     
     <hr/>
     <p>
         Or, instead of uploading, enter the URL of the image you would like to use.
     </p>
-    <p><input ng-model='form.newurl' type='text' placeholder='Insert link here' /></p>
+    <p><input data-ng-model='form.newurl' type='text' placeholder='Insert link here' /></p>
     <p>
         <strong>Note:</strong> All images for the same question should be of the same height. It just looks better.
     </p>
 </div>
 <div class="modal-footer">
-    <button class="button alert" ng-click="Cancel()">Cancel</button>
-    <button class="button success radius" ng-click="AttachImage(form.newurl)">Attach</button>
+    <button class="button alert" data-ng-click="Cancel()">Cancel</button>
+    <button class="button success radius" data-ng-click="AttachImage(form.newurl)">Attach</button>
 </div>
 </form>

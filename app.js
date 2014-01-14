@@ -35,6 +35,7 @@ app.use(flash());
 app.use(require('stylus').middleware(__dirname + '/public'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(app.router);
+console.log("After router");
 
 
 // development only
@@ -104,8 +105,8 @@ mongoose.connect('mongodb://localhost/test');
 
 app.get('/main', routes.main);
 app.get('/app', routes.apphome);
-
-app.get('/', routes.index);
+app.get('/', routes.takequiz);
+app.get('/home', routes.index);
 
 //SIGN UP ROUTES
 app.get('/signup', routes.signup);
@@ -123,7 +124,7 @@ app.post('/logout', routes.logout);
 app.get('/user', routes.currentuser);
 
 //PUBLIC ACTION PAGES
-app.get('/take', routes.takequiz);
+app.get('/take', routes.takebadquiz);
 app.get('/take/:id', routes.takequiz);
 app.get('/results', routes.getresults);
 app.get('/results/:id', routes.getresults);

@@ -14,16 +14,16 @@
 			<thead>
 				<tr>
 					<th>Submitted by</th>
-					<th ng-show='quiz.type == "poll" || quiz.type == "Poll"'>Score</th>
+					<th data-ng-show='quiz.type == "poll" || quiz.type == "Poll"'>Score</th>
 					<th>Date submitted</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat='r in responses | orderBy: r.percentage | limitTo:100'>
+				<tr data-ng-repeat='r in responses | orderBy: r.percentage | limitTo:100'>
 					<td>
 						<a ui-sref='viewResults({email:r.email, id:quiz._id})'>{{r.email}}</a> 
 					</td>
-					<td ng-show='quiz.type == "poll" || quiz.type == "Poll"'>
+					<td data-ng-show='quiz.type == "poll" || quiz.type == "Poll"'>
 						{{r.percentage * 100 | number:2}}%
 					</td>
 					<td>

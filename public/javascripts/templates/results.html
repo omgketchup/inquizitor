@@ -1,24 +1,24 @@
-<div class='row' ng-show='errorMessage.length'>
+<div class='row' data-ng-show='errorMessage.length'>
 	<div class='label alert large-12 columns'>
 		<h1>{{errorMessage}}</h1>
 	</div>
 	<div class='large-12 columns'>
-		<h4><a ng-click='TakeMeHome()'>Go back home.</a></h4>
+		<h4><a data-ng-click='TakeMeHome()'>Go back home.</a></h4>
 	</div>
 </div>
-<div class='row' ng-show='!quiz'>
+<div class='row' data-ng-show='!quiz'>
 	<div class='large-12 columns'>
 		<h4>Please enter your email address, so we can look up your results for this quiz.</h4>
-		<input type='text' ng-model='email' placeholder='abc@xyz.com' />
+		<input type='text' data-ng-model='email' placeholder='abc@xyz.com' />
 	</div>
 	<div class='large-12 columns'>
-		<h4 class='right'><a class='button success' ng-click='GetResults()'>Get Results</a></h4>
+		<h4 class='right'><a class='button success' data-ng-click='GetResults()'>Get Results</a></h4>
 	</div>
 </div>
-<div class='row' ng-show='!errorMessage && quiz'>
+<div class='row' data-ng-show='!errorMessage && quiz'>
 	<hr/>
-	<div class='large-12 columns panel' ng-show='quiz'>
-		<div class='row' ng-show='quiz.thankyou'>
+	<div class='large-12 columns panel' data-ng-show='quiz'>
+		<div class='row' data-ng-show='quiz.thankyou'>
 			<div class='large-12 columns'>
 				<h3>{{quiz.thankyou}}</h3>
 			</div>
@@ -31,7 +31,7 @@
 			</div>
 			<hr/>
 		</div>
-		<div class='row' ng-repeat='result in responses.answers'>
+		<div class='row' data-ng-repeat='result in responses.answers'>
 			<div class='large-12 columns'>
 				<h3>{{result.text}}</h3>
 				<h4>{{result.response}}</h4>

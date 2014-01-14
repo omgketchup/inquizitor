@@ -46,9 +46,11 @@ label{
 .red{
 	color:#f00;
 }
-.green{
-	color:#43ac6a;
+.row #quizform .columns .greenback{
+	/* what a terrible hack */
+	background:#43ac6a;
 }
+
 .gray{
 	color:lightGray;
 }

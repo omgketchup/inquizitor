@@ -10,9 +10,11 @@ var fs = require('fs');
 var ObjectId = require('mongoose').Types.ObjectId; 
 
 exports.main = function(req, res){
+	console.log("MAIN");
 	res.render('templates/main');
 }
 exports.apphome = function(req, res){
+	console.log("APPHOME");
 	if(req.isAuthenticated()){
 		res.render('templates/app');
 	}else{
@@ -47,6 +49,7 @@ exports.uploadimage = function(req, res){
 /* FUCK EVERYTHING BELOW THIS */
 
 exports.index = function(req, res){
+	console.log("INDEX");
 	res.render('index', { title: 'Inquizitor App Home' });
 };
 exports.getlogin = function(req, res){
@@ -481,10 +484,46 @@ exports.getquizzes = function(req, res){
 	}
 }
 
+exports.takebadquiz = function(req, res){
+	res.render('templates/error', {status:'failure', message:'That thing you wanted... we could not find it.'});
+}
 
 exports.takequiz = function(req, res){
-	console.dir(req.params);
+	//OLD AND WORKING
+	console.dir(req.body);
+	console.log("RENDERING /FRONT!");
 	res.render('templates/front');
+
+	/* 
+	console.log("TAKE QUIZ BEING RENDERED");
+	console.dir(req.query);
+	console.dir(req.params);
+	try{
+		var oid = new ObjectId(req.query.id.toString());
+	}catch(err){
+		//console.log("Caught error creating new object id... failed lookup");
+		try{
+			var oid = new ObjectId(req.params.id);
+		}catch(err){
+			res.send({status:'failure', message:'Invalid quiz ID. ' + err});
+			return;
+		}
+	}
+	SweetQuiz.findOne({_id: oid}, function(err, quiz){
+		if(err){ console.log("Error looking up quiz for viewing... " + err); return; }
+		//console.log("Finished FindOne for a quiz" + quiz);
+		if(quiz!=null){
+			//console.log("SUCCESS!");
+			res.render('takesimple', {quiz:quiz});
+			// res.send({status:'success', data:quiz, message:'Got a quiz for viewing, no answer info...'});
+		}else{
+			//console.log("Failure :-( ");
+			res.send({status:'failure', message:'No quiz matching that ID was found. '});
+		}
+		
+	});*/
+
+
 }
 
 

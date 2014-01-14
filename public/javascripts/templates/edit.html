@@ -1,25 +1,25 @@
 <form id='editform' name='editform' novalidate>
-<div class='row' ng-show='!quiz'>
+<div class='row' data-ng-show='!quiz'>
 	<h1>Loading...</h1>
 </div>
-<div class='row quiz_display' ng-show='quiz'>
+<div class='row quiz_display' data-ng-show='quiz'>
 	<h1>{{quiz.name}}</h1>
 	<div class='large-12 columns'>
 		<h4>Title</h4>
-		<input type='text' ng-maxlength='65' placeholder='Quiz Title' ng-model='quiz.name' required />
+		<input type='text' data-ng-maxlength='65' placeholder='Quiz Title' data-ng-model='quiz.name' required />
 	</div>
 	<div class='large-12 columns'>
 		<h4>Description</h4>
-		<textarea type='text' ng-maxlength='400' placeholder='Description and/or instructions' ng-model='quiz.description'></textarea>
+		<textarea type='text' data-ng-maxlength='400' placeholder='Description and/or instructions' data-ng-model='quiz.description'></textarea>
 	</div>
 	<div class='large-12 columns'>
 		<h4>Thank You</h4>
-		<textarea ng-model='quiz.thankyou' placeholder='Text to be shown after someone submits a response.'></textarea>
+		<textarea data-ng-model='quiz.thankyou' placeholder='Text to be shown after someone submits a response.'></textarea>
 	</div>
-	<div class='large-12 columns panel' ng-show='quiz._id'>
-		<h5><span style='font-weight:bold;'>Share this quiz: </span> <a ng-href='/take/{{quiz._id}}'>Click here</a></h5>
+	<div class='large-12 columns panel' data-ng-show='quiz._id'>
+		<h5><span style='font-weight:bold;'>Share this quiz: </span> <a data-ng-href='/take/{{quiz._id}}'>Click here</a></h5>
 	</div>
-	<div class='large-12 columns panel' ng-show='quiz.numba > 0'>
+	<div class='large-12 columns panel' data-ng-show='quiz.numba > 0'>
 		<h5><i class='fi-results-demographics'></i> {{quiz.numba}} responses <a ui-sref='analytics'>Click to view</a></h5>
 	</div>
 	<div class='large-12 columns panel'>
@@ -31,30 +31,30 @@
 					ng-model='quiz.type'
 					ng-options='option.value as option.name for option in quizTypeOptions'
 				>
-					<!-- POPULATED FROM NG-OPTIONS ABOVE, LOOK IN THE APP -->
+					<!-- POPULATED FROM data-ng-OPTIONS ABOVE, LOOK IN THE APP -->
 				</select>
 			</div>
 			<div class='large-3 columns'>
 				<h5>Time Limit</h5>
-				<input ng-model='quiz.advancedOptions.timeLimit' type='text' placeholder='hh:mm:ss'/>
+				<input data-ng-model='quiz.advancedOptions.timeLimit' type='text' placeholder='hh:mm:ss'/>
 			</div>
 			<div class='large-3 columns'>
 				<h5>Expiration</h5>
-				<input ng-model='quiz.advancedOptions.expires' type='date' placeholder='date/timepicker' />
+				<input data-ng-model='quiz.advancedOptions.expires' type='date' placeholder='date/timepicker' />
 			</div>
 			<div class='large-3 columns'>
 				<h5>Public</h5>
-				<select ng-model='quiz.advancedOptions.isPublic'>
+				<select data-ng-model='quiz.advancedOptions.isPublic'>
 					<option>Public</option>
 					<option>Private</option>
 				</select>
 			</div>
 		</div>
 	</div>
-	<div class='large-12 columns' ng-show='quiz.questions.length'>
+	<div class='large-12 columns' data-ng-show='quiz.questions.length'>
 		<h2>Questions</h2>
 		<hr/>
-		<div class='row' ng-repeat='question in quiz.questions track by $index'>
+		<div class='row' data-ng-repeat='question in quiz.questions track by $index'>
 			<div class='large-2 medium-2 small-2 columns'>
 				<select 
 			  		ng-model='question.type' 
@@ -65,14 +65,14 @@
 			  	</select>
 			</div>
 			<div class='large-8 medium-8 columns'>
-				<input type='text' placeholder='Question text, ex. Who is the best superhero?' ng-model='question.text' required />
+				<input type='text' placeholder='Question text, ex. Who is the best superhero?' data-ng-model='question.text' required />
 			</div>
 			<div class='large-2 medium-2 columns'>
 				<h4 style='text-align:right;'>
-					<a ng-show='question.type == "multiple_choice" && question.showchoices' ng-click='ToggleChoices(question)' alt='Upload an image'><i class='fi-minus'></i></a>
-					<a ng-show='question.type == "multiple_choice" && !question.showchoices' ng-click='ToggleChoices(question)' alt='Upload an image'><i class='fi-plus'></i></a>
-					<a ng-click='CopyQuestion(question)' alt='Create a copy of this question as a new question'><i style='color:lightGreen;' class='fi-page-copy'></i></a>
-					<a ng-click='DeleteQuestion(question)' alt='Delete this question.'><i style='color:red;' class='fi-x'></i></a>
+					<a data-ng-show='question.type == "multiple_choice" && question.showchoices' data-ng-click='ToggleChoices(question)' alt='Upload an image'><i class='fi-minus'></i></a>
+					<a data-ng-show='question.type == "multiple_choice" && !question.showchoices' data-ng-click='ToggleChoices(question)' alt='Upload an image'><i class='fi-plus'></i></a>
+					<a data-ng-click='CopyQuestion(question)' alt='Create a copy of this question as a new question'><i style='color:lightGreen;' class='fi-page-copy'></i></a>
+					<a data-ng-click='DeleteQuestion(question)' alt='Delete this question.'><i style='color:red;' class='fi-x'></i></a>
 				</h4>
 			</div>
 			<div 
@@ -88,30 +88,30 @@
 						<p><strong>Display Type:</strong> Radio button or dropdown?  Images only work with radio button.</p>
 					</div>
 				</div>
-				<div class='row' ng-repeat='choice in question.choices'>
+				<div class='row' data-ng-repeat='choice in question.choices'>
 					<div class='large-2 medium-2 columns' style='text-align:center;'>
 						<h4>
-							<a ng-click='AddUploadToChoice(question, choice)' alt='Upload an image'><i class='fi-upload'></i></a>&nbsp;&nbsp;
+							<a data-ng-click='AddUploadToChoice(question, choice)' alt='Upload an image'><i class='fi-upload'></i></a>&nbsp;&nbsp;
 							<a alt='Link to an image'><i class='fi-link'></i></a>
 						</h4>
 					</div>
 					<div class='large-8 medium-8 columns'>
-						<input type='text' class='small' ng-model='choice.text' ng-required='question.type == "multiple_choice"' placeholder='Choice text, ex. Superman'/>
+						<input type='text' class='small' data-ng-model='choice.text' data-ng-required='question.type == "multiple_choice"' placeholder='Choice text, ex. Superman'/>
 					</div>
 					<div class='large-2 medium-2 columns'>
 						<h4>
-							<a ng-click='ToggleAnswer(question, choice)' alt='Mark this as the correct answer'>
-								<i ng-class='{green:choice.isCorrect == true, gray:choice.isCorrect != true}' class='fi-check'></i>
+							<a data-ng-click='ToggleAnswer(question, choice)' alt='Mark this as the correct answer'>
+								<i data-ng-class='{green:choice.isCorrect == true, gray:choice.isCorrect != true}' class='fi-check'></i>
 							</a> 
-							<a ng-click='DeleteChoice(question, choice)' alt='Link to an image'>
+							<a data-ng-click='DeleteChoice(question, choice)' alt='Link to an image'>
 								<i style='color:red;' class='fi-x'></i>
 							</a>
 						</h4>		
 					</div>
 				</div>
-				<div class='row' ng-show='question.choices.length < 5'>
+				<div class='row' data-ng-show='question.choices.length < 5'>
 					<div class='large-12 columns'>
-						<p><a ng-click='AddChoice(question)' class='button small'>+ Choice</a></p>
+						<p><a data-ng-click='AddChoice(question)' class='button small'>+ Choice</a></p>
 					</div>
 				</div>
 			</div>
@@ -125,8 +125,8 @@
 <div class='row'>
 	<div class='large-6 columns right' style='text-align:right;'>
 		<h4>
-			<a ng-click='AddQuestion()' class='button' alt='omg' title='nonsense'>New Question</a> 
-			<a ng-click='SaveQuiz()' ng-disabled='!editform.$valid' class='button success' alt='omg' title='nonsense'>Save</a>
+			<a data-ng-click='AddQuestion()' class='button' alt='omg' title='nonsense'>New Question</a> 
+			<a data-ng-click='SaveQuiz()' data-ng-disabled='!editform.$valid' class='button success' alt='omg' title='nonsense'>Save</a>
 		</h4>
 	</div>
 </div>

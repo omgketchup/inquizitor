@@ -8,9 +8,15 @@
 var app = angular.module('app', [ 'ngAnimate','ui.router', 'ngSanitize'
 	])
 	.config(function($stateProvider, $urlRouterProvider, $locationProvider){
-		$urlRouterProvider.otherwise('/take');
-		$locationProvider.html5Mode(true);
+		console.log("Goddammit");
+		$urlRouterProvider.otherwise('take');
+		
 		$stateProvider
+		.state('takehome', {
+			url:'/',
+			templateUrl:'javascripts/templates/view.html',
+			controller:'TakeCtrl'
+		})
 		.state('view', {
 			url:'/take',
 			templateUrl:'javascripts/templates/view.html',
@@ -36,12 +42,24 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ngSanitize'
 			templateUrl:'../../javascripts/templates/results.html',
 			controller:'ResultsCtrl'
 		})
+
+		if(window.history && window.history.pushState){
+		    console.log("HTML 5 mode is true...");
+		}
+		console.log("Defined states... should pick one and use its controller...");
+		$locationProvider.html5Mode(true);
 	})
 	.controller('TakeCtrl', function($scope, $http, $stateParams, $state){
-		//console.log("Using the TakeCtrl");
+		$scope.message = "Loading...";
+		console.log("Using the TakeCtrl");  
 		var id = $stateParams.id;
-		//console.log("About to view a quiz with the _id: " + id);
-		//console.debug($stateParams);
+		if(typeof($stateParams.id) == 'undefined' || id == ''){
+			$scope.message = "Sorry, we couldn't figure that one out.  Check the link and try again.";
+		}else{
+			console.log("ID WAS NOT UNDEFINED!:  " + id);
+		}
+
+
 		$scope.submitClass = '';
 		$http({
 			url: '/view',
@@ -125,9 +143,11 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ngSanitize'
 		$scope.TakeMeHome = function(){
 			window.location = '/';
 		}
+
+		console.log("Finished TakeCtrl...");
 	})
 	.controller('ResultsCtrl', function($scope, $http, $state, $stateParams){
-		//console.log("USING THE RESULTS CONTROLLER");
+		console.log("USING THE RESULTS CONTROLLER");
 		//console.debug($stateParams);
 
 		$scope.GetResults = function(){
