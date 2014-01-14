@@ -52,10 +52,10 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ngSanitize'
 	.controller('TakeCtrl', function($scope, $http, $stateParams, $state){
 		$scope.message = "Loading...";
 		console.log("Using the TakeCtrl");  
-		
-		console.log("iFrame is triggering iframe change event");
-		window.parent.jQuery('body').trigger("iframe-change-event");
-		
+
+		window.top.postMessage("change", "*");
+		console.log("Just posted message to top");
+
 		var id = $stateParams.id;
 		if(typeof($stateParams.id) == 'undefined' || id == ''){
 			$scope.message = "Sorry, we couldn't figure that one out.  Check the link and try again.";
