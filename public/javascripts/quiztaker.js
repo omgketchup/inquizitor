@@ -52,6 +52,10 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ngSanitize'
 	.controller('TakeCtrl', function($scope, $http, $stateParams, $state){
 		$scope.message = "Loading...";
 		console.log("Using the TakeCtrl");  
+		
+		console.log("iFrame is triggering iframe change event");
+		window.parent.jQuery('body').trigger("iframe-change-event");
+		
 		var id = $stateParams.id;
 		if(typeof($stateParams.id) == 'undefined' || id == ''){
 			$scope.message = "Sorry, we couldn't figure that one out.  Check the link and try again.";
@@ -164,8 +168,8 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ngSanitize'
 	})
 	.controller('ResultsCtrl', function($scope, $http, $state, $stateParams, $location, $anchorScroll){
 		console.log("USING THE RESULTS CONTROLLER");
-		
-		//console.log("Attempting to scroll parent window to the top");
+		console.log("iFrame is triggering iframe change event");
+		window.parent.jQuery('body').trigger("iframe-change-event");
 		//window.parent.$("body, html", window.parent).animate({scrollTop:0}, 'slow');
 
 		//console.log("Attempting to scroll current document to the top");
