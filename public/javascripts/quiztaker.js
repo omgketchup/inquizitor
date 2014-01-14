@@ -168,11 +168,10 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ngSanitize'
 	})
 	.controller('ResultsCtrl', function($scope, $http, $state, $stateParams, $location, $anchorScroll){
 		console.log("USING THE RESULTS CONTROLLER");
-		console.log("iFrame is triggering iframe change event");
-		window.parent.jQuery('body').trigger("iframe-change-event");
-		//window.parent.$("body, html", window.parent).animate({scrollTop:0}, 'slow');
 
-		//console.log("Attempting to scroll current document to the top");
+
+		window.top.postMessage("change", "*");
+		console.log("Just posted message to top");
 
 		$scope.GetResults = function(){
 			//console.log("About to look up results.");
