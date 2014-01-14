@@ -83,6 +83,8 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ngSanitize'
 			$scope.errorMessage = response.message;
 		});
 
+		$scope.validationError = '';
+
 		$scope.Debug = function(o){
 			/*console.log("DEBUG");
 			console.debug(o);
@@ -90,6 +92,20 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ngSanitize'
 		}
 
 		$scope.SubmitResponse = function(){
+			if($scope.quizform){
+				console.log("Got it");
+				$scope.val = 'showvalidation';
+				if(!$scope.quizform.$valid){
+					console.log("QUIZ IS NOT VALID, DONT SUBMIT");
+					$scope.validationError = "You're missing a required field! Make sure you enter your email, and answer all the questions.";
+					return;
+				}else{
+					console.log("All good");
+				}
+			}else{
+				console.log("NO QUIZFORMY WTF");
+			}
+
 			//console.log("About to submit the responses to this quiz.  Maybe validate first?");
 			$scope.submitClass = 'disabled';
 			var q = $scope.quiz;

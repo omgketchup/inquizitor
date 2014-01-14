@@ -50,14 +50,18 @@ label{
 	/* what a terrible hack */
 	background:#43ac6a;
 }
+.row #quizform .columns .alertback{
+	background:#f04124;
+	color:#fff;
+}
 
 .gray{
 	color:lightGray;
 }
 
-input.ng-invalid, textarea.ng-invalid, select.ng-invalid {
+ .showvalidation input.ng-invalid,  .showvalidation textarea.ng-invalid,  .showvalidation select.ng-invalid {
   border: 1px solid red;
 }
-input.ng-pristine, textarea.ng-pristine, select.ng-pristine {
+ .showvalidation input.ng-pristine,  .showvalidation textarea.ng-pristine,  .showvalidation select.ng-pristine {
 	border: 1px solid #ccc;
 }

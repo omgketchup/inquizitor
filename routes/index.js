@@ -490,8 +490,8 @@ exports.takebadquiz = function(req, res){
 
 exports.takequiz = function(req, res){
 	//OLD AND WORKING
-	console.dir(req.body);
-	console.log("RENDERING /FRONT!");
+	//console.dir(req.body);
+	//console.log("RENDERING /FRONT!");
 	res.render('templates/front');
 
 	/* 
