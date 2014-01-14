@@ -165,8 +165,8 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ngSanitize'
 	.controller('ResultsCtrl', function($scope, $http, $state, $stateParams, $location, $anchorScroll){
 		console.log("USING THE RESULTS CONTROLLER");
 		
-		console.log("Attempting to scroll parent window to the top");
-		window.parent.$("body, html", window.parent).animate({scrollTop:0}, 'slow');
+		//console.log("Attempting to scroll parent window to the top");
+		//window.parent.$("body, html", window.parent).animate({scrollTop:0}, 'slow');
 
 		//console.log("Attempting to scroll current document to the top");
 
