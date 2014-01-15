@@ -101,7 +101,7 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ngSanitize'
 				$scope.val = 'showvalidation';
 				if(!$scope.quizform.$valid){
 					//console.log("QUIZ IS NOT VALID, DONT SUBMIT");
-					$scope.validationError = "You're missing a required field! Make sure you enter your email, and answer all the questions.";
+					$scope.validationError = "ERROR! You must enter your email address and vote in all categories to submit your ballot successfully.";
 					return;
 				}else{
 					//console.log("All good");

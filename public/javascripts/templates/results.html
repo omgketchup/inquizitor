@@ -20,13 +20,13 @@
 	<div class='large-12 columns panel' data-ng-show='quiz'>
 		<div class='row' data-ng-show='quiz.thankyou'>
 			<div class='large-12 columns'>
-				<h3>{{quiz.thankyou}}</h3>
+				<h3 data-ng-bind-html='quiz.thankyou'>{{quiz.thankyou}}</h3>
 			</div>
 			<hr/>
 		</div>
 		<div class='row'>
 			<div class='large-12 columns'>
-				<h2>{{quiz.name}}</h2>
+				<h2 data-ng-bind-html='quiz.name'>{{quiz.name}}</h2>
 				<h5>Answered by: {{responses.email}}</h5>
 			</div>
 			<hr/>

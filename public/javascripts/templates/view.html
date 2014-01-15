@@ -15,7 +15,7 @@
 		<div class='row' data-ng-show='!errorMessage'>
 			<div class='row quiz_heading'>
 				<div class='large-12 columns'>
-					<h1>{{quiz.name}}</h1>
+					<h1 data-ng-bind-html='quiz.name'>{{quiz.name}}</h1>
 					<h4 data-ng-bind-html='quiz.description'>{{quiz.description}}</h4>
 				</div>
 			</div>
