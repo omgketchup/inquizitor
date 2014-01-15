@@ -22,8 +22,15 @@
 			<div class='row quiz_contents'>
 				<div class='large-12 columns'>
 					<h4 class='panel'>
-						Email - Please enter your email address so we can identify whose answers are whose.
-						<input data-ng-model='email' type='email' name='email' id='email' placeholder='abc@xyz.com' required></input>
+						<label class='showvalidation'>
+							Please enter your email
+							<input data-ng-model='email' type='email' name='email' id='email' placeholder='abc@xyz.com' required></input>
+						</label>
+						<label class='showvalidation'>
+							Please confirm your email
+							<input data-ng-model='cemail' type='email' name='cemail' id='cemail' placeholder='abc@xyz.com' required 
+							data-match='email'></input>
+						</label>
 					</h4>
 				</div>
 				<div class='large-12 columns' data-ng-repeat='question in quiz.questions'>

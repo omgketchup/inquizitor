@@ -114,6 +114,7 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ngSanitize'
 			$scope.submitClass = 'disabled';
 			var q = $scope.quiz;
 			var submission = {email: $scope.email, responseTo: $scope.quiz._id};
+			submission.cemail = $scope.cemail;
 			var answers = [];
 			for(var i = 0; i<q.questions.length; i++){
 				var question = q.questions[i];
@@ -229,4 +230,17 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ngSanitize'
 			//console.log("Invalid email address to auto-load");
 		}
 	})
+	.directive('match',['$parse', function ($parse) {
+        return {
+            require: 'ngModel',
+            restrict: 'A',
+            link: function(scope, elem, attrs, ctrl) {
+                scope.$watch(function() {
+                    return (ctrl.$pristine && angular.isUndefined(ctrl.$modelValue)) || $parse(attrs.match)(scope) === ctrl.$modelValue;
+                }, function(currentValue) {
+                    ctrl.$setValidity('match', currentValue);
+                });
+            }
+        };
+    }])
 ;

@@ -10,11 +10,9 @@ var fs = require('fs');
 var ObjectId = require('mongoose').Types.ObjectId; 
 
 exports.main = function(req, res){
-	console.log("MAIN");
 	res.render('templates/main');
 }
 exports.apphome = function(req, res){
-	console.log("APPHOME");
 	if(req.isAuthenticated()){
 		res.render('templates/app');
 	}else{
@@ -24,7 +22,6 @@ exports.apphome = function(req, res){
 
 exports.uploadimage = function(req, res){
 	if(!req.isAuthenticated()){
-		console.log("User was not authenticated wtffff");
 		res.send({status:'failure', message:'Failed authentication before upload.'});
 		return;
 	}
@@ -46,14 +43,10 @@ exports.uploadimage = function(req, res){
 	console.log("Finished uploading an image.");
 }
 
-/* FUCK EVERYTHING BELOW THIS */
-
 exports.index = function(req, res){
-	console.log("INDEX");
 	res.render('index', { title: 'Inquizitor App Home' });
 };
 exports.getlogin = function(req, res){
-	console.log("Got login...?");
 	req.logout();
 	if(req.isAuthenticated()){
 		res.redirect('/app');
@@ -62,33 +55,25 @@ exports.getlogin = function(req, res){
 	}
 };
 exports.postlogin = function(req, res, next){
-	
-	console.log("Posting login.");
-	console.dir(req.user);
-
-        passport.authenticate('local', function(err, user) {
-            if (err) { return next(err) }
-            if (!user) {
-                //res.local("username", req.param('username'));
-                return res.render('login', { status: 'failure', message: "Invalid username/password combination." });
+    passport.authenticate('local', function(err, user) {
+        if (err) { return next(err) }
+        if (!user) {
+            return res.render('login', { status: 'failure', message: "Invalid username/password combination." });
+        }
+        console.log("About to do a 'login'");
+        // make passportjs setup the user object, serialize the user, ...
+        req.login(user, {}, function(err) {
+            if (err) { 
+            	return next(err); 
+            }else{
+            	return res.redirect("/app");
             }
-            console.log("About to do a 'login'");
-            // make passportjs setup the user object, serialize the user, ...
-            req.login(user, {}, function(err) {
-                if (err) { 
-                	return next(err); 
-                }else{
-                	console.log("Redirecting to /app");
-                	return res.redirect("/app");
-                }
-            });
-        })(req, res, next);
-        return;
-    
-
+        });
+    })(req, res, next);
+    return;
 };
 exports.logout = function(req, res){
-	console.log("LOGGING OUT!")
+	console.log("LOGGING OUT! ");
 	req.logout();
 	console.dir(req.user);
 	res.redirect('/');
@@ -96,7 +81,7 @@ exports.logout = function(req, res){
 
 exports.currentuser = function(req, res){
 	if(req.isAuthenticated()){
-		console.log("Getting current user, it's: " + req.user.email);
+		//console.log("Getting current user, it's: " + req.user.email);
 		res.send({status:"success", user: req.user});
 	}else{
 		res.send({status:"failure"});
@@ -297,8 +282,8 @@ exports.deletequiz = function(req, res){ //async
 }
 exports.viewquiz = function(req, res){
 	//console.log("Getting a quiz for viewing... " + req.query.id);
-	console.dir(req.query);
-	console.dir(req.params);
+	//console.dir(req.query);
+	//console.dir(req.params);
 	try{
 		var oid = new ObjectId(req.query.id.toString());
 	}catch(err){
@@ -326,6 +311,9 @@ exports.viewquiz = function(req, res){
 
 exports.postresponse = function(req, res){
 	var response = req.body;
+	if(response.email != response.cemail){
+		res.send({status:'failure', message: 'Email and email confirmation did not match.'});
+	}
 	QuizResponse.update(
 		{
 			responseTo: response.responseTo,
@@ -489,51 +477,8 @@ exports.takebadquiz = function(req, res){
 }
 
 exports.takequiz = function(req, res){
-	//OLD AND WORKING
-	//console.dir(req.body);
-	//console.log("RENDERING /FRONT!");
 	res.render('templates/front');
-
-	/* 
-	console.log("TAKE QUIZ BEING RENDERED");
-	console.dir(req.query);
-	console.dir(req.params);
-	try{
-		var oid = new ObjectId(req.query.id.toString());
-	}catch(err){
-		//console.log("Caught error creating new object id... failed lookup");
-		try{
-			var oid = new ObjectId(req.params.id);
-		}catch(err){
-			res.send({status:'failure', message:'Invalid quiz ID. ' + err});
-			return;
-		}
-	}
-	SweetQuiz.findOne({_id: oid}, function(err, quiz){
-		if(err){ console.log("Error looking up quiz for viewing... " + err); return; }
-		//console.log("Finished FindOne for a quiz" + quiz);
-		if(quiz!=null){
-			//console.log("SUCCESS!");
-			res.render('takesimple', {quiz:quiz});
-			// res.send({status:'success', data:quiz, message:'Got a quiz for viewing, no answer info...'});
-		}else{
-			//console.log("Failure :-( ");
-			res.send({status:'failure', message:'No quiz matching that ID was found. '});
-		}
-		
-	});*/
-
-
 }
-
-
-
-
-
-
-
-
-//FUCK EVERYTHING BELOW HERE
 
 exports.feed = function(req, res){
 	if(req.isAuthenticated()){
@@ -546,22 +491,8 @@ exports.feed = function(req, res){
 	}else{
 		console.log("WAS NOT AUTHENTICATED");
 		res.redirect('/login', {status:'failure', message:'You must be logged in to do that.'});
-		//res.send({status:"failure", message:"You must be logged in to do that."});
 	}
 }
-/*exports.getguizzes = function(req, res){
-	if(req.isAuthenticated()){
-		SweetQuiz.find(function(err, quizzes){
-			if(err) res.send("No quizzes found, something's screwy.");
-			console.log("Found " + quizzes.length + " quizzes.");
-			res.send(quizzes);
-		});
-	}else{
-		res.send({status:"failure", message:"You must be logged in to do that."});
-	}
-}*/
-
-
 
 
 /*
