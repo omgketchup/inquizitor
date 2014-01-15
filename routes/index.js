@@ -75,7 +75,6 @@ exports.postlogin = function(req, res, next){
 exports.logout = function(req, res){
 	console.log("LOGGING OUT! ");
 	req.logout();
-	console.dir(req.user);
 	res.redirect('/');
 };
 
@@ -124,18 +123,14 @@ exports.signup = function(req, res){
 }
 
 exports.postquiz = function(req, res){ //async
-	console.log("Posting to quiz");
+	//console.log("Posting to quiz");
 	if(req.isAuthenticated()){
-
 		var quiz = new SweetQuiz(req.body.quiz);
-		console.log("QUIZ ADVANCED OPTIONS:");
-		console.dir(quiz);
 		quiz.author = req.user.email;
 		if(typeof(quiz.created) == 'undefined'){
-			console.log("No created on quiz..., setting it to now");
+			//console.log("No created on quiz..., setting it to now");
 			quiz.created = Date.now();
 		}
-		console.log("About to look for and update quiz: " + quiz._id);
 		SweetQuiz.update(
 			{
 				_id: quiz._id,
@@ -157,13 +152,11 @@ exports.postquiz = function(req, res){ //async
 				upsert: true
 			},
 			function(err, fin, details, extra){
-				console.log("Finish Upsert Handler");
+				//console.log("Finish Upsert Handler");
 				if(err){ 
-					console.log("Error. " + err);
 					res.send({status:"failure", message:"Couldn't update that quiz. " + err}); 
 				}else{
-					console.log("Success");
-					console.dir(details);
+					//console.log("Success");
 					if(details.updatedExisting == true){
 						console.log("Updated existing document: " + quiz._id);
 					}else{
@@ -184,19 +177,15 @@ exports.postquiz = function(req, res){ //async
 	
 }
 exports.getquiz = function(req, res){ //async
-	console.log("GETTING QUIZ: " + req.query.id + ", " + req.user.email);
 	SweetQuiz.findOne(
 		{_id: new ObjectId(req.query.id), author:req.user.email}, 
 		function(err, q){
 			if(err){ 
-				console.log("ERROR WAS " + err); 
+				//console.log("ERROR WAS " + err); 
 			}
 			if(q != null){
-				console.log("QUIZ: " + q.name + ", type: " + q.type);
-
 				if(req.isAuthenticated()){
 					if(req.user.email == q.author){
-						console.log("This is that user, you can append the responses or something...");
 						QuizResponse.find(
 							{
 								responseTo: req.query.id, 
@@ -204,12 +193,9 @@ exports.getquiz = function(req, res){ //async
 							}, 
 							function(err, foundResponses){
 								if(err){ 
-									console.log("Error looking up responses to quiz...");
 									res.send({status:"success", message:"Got that quiz, what an accomplishment!", quiz:q});
 									return;
 								}else{
-									console.log("GODDAMMIT");
-									console.dir(foundResponses);
 									if(foundResponses != null && typeof(foundResponses) != 'undefined' && foundResponses.length != 0){
 										console.dir(foundResponses);
 										if(foundResponses.length == 0){
@@ -219,7 +205,6 @@ exports.getquiz = function(req, res){ //async
 												q.numba = 0;
 											}
 										}else{
-											console.log("Q numba wont be 0");
 											q.numba = foundResponses.length;
 										}
 										if(q.numba > 0){  // FIGURE OUT PERCENTAGE HERE, MAYBE
@@ -232,10 +217,8 @@ exports.getquiz = function(req, res){ //async
 											}
 											
 										}
-										console.log("Q NUMBA IS: " + q.numba);
 										res.send({status:"success", message:"Got that quiz, what an accomplishment! " + q.numba, quiz:q});
 									}else{
-										console.log("FoundResponses was null or something..." + foundResponses);
 										res.send({status:'success', message:"Got it", quiz:q});
 									}
 								}
@@ -249,7 +232,6 @@ exports.getquiz = function(req, res){ //async
 					console.send({status:"success", message:"Got quiz, no responses or anything", quiz:q});
 				}
 			}else{
-				console.log("QUIZ IS NULL");
 				res.send({status:"failure", message:"No quizzes matched that query."});
 			}
 		}
@@ -281,13 +263,9 @@ exports.deletequiz = function(req, res){ //async
 	}
 }
 exports.viewquiz = function(req, res){
-	//console.log("Getting a quiz for viewing... " + req.query.id);
-	//console.dir(req.query);
-	//console.dir(req.params);
 	try{
 		var oid = new ObjectId(req.query.id.toString());
 	}catch(err){
-		//console.log("Caught error creating new object id... failed lookup");
 		try{
 			var oid = new ObjectId(req.params.id);
 		}catch(err){
@@ -299,13 +277,11 @@ exports.viewquiz = function(req, res){
 		if(err){ console.log("Error looking up quiz for viewing... " + err); return; }
 		//console.log("Finished FindOne for a quiz" + quiz);
 		if(quiz!=null){
-			//console.log("SUCCESS!");
+			//IF QUIZ HAS MULTIPLE CHOICE QUESTIONS, NEED TO LOOP THROUGH HERE AND REMOVE THE isCorrect FLAG ON EACH MC QUESTION'S CHOICE
 			res.send({status:'success', data:quiz, message:'Got a quiz for viewing, no answer info...'});
 		}else{
-			//console.log("Failure :-( ");
 			res.send({status:'failure', message:'No quiz matching that ID was found. '});
 		}
-		
 	});
 }
 
@@ -330,10 +306,6 @@ exports.postresponse = function(req, res){
 			if(err){
 				res.send({status:'failure', message: "Got error: " + err}); 
 			}else{
-				console.log("Successfully upserted a response...");
-				console.dir(response);
-				console.log("-----------------------------------------");
-				console.dir(details);
 				res.send({status:'success'});
 			}
 		}
@@ -349,13 +321,11 @@ exports.getresponses = function(req, res){
 			if(err){ 
 				//console.log("Could not find a quiz that matched that ID while making sure the current user is that quiz's author."); 
 				res.send({status:'failure', message: 'Sorry, could not find a quiz to match that ID.'});
-				return; 
+				return;
 			}
 			else{
 				if(foundQuiz != null){
 					if(foundQuiz.author == req.user.email){
-						//console.log("The current user is the author of this!  Now we can try to find all the responses to this quiz.");
-
 						QuizResponse.find(
 							{
 								responseTo: foundQuiz._id
@@ -363,7 +333,6 @@ exports.getresponses = function(req, res){
 							function(err, foundResponses){
 								if(err){ console.log("Looked up responses to the legit quiz, but got an error: " + err); return; }
 								if(foundResponses != null){
-
 									//CALCULATE PERCENTAGES FOR MULTIPLE CHOICE QUIZ RESULTS WITH ANSWERS
 									if(foundQuiz.type == 'poll' || foundQuiz.type == 'Poll'){
 										for(var q = 0; q<foundResponses.length; q++){
@@ -391,13 +360,8 @@ exports.getresponses = function(req, res){
 											}
 											var percentage = numCorrect / foundQuiz.questions.length;
 											oneResponse.percentage = percentage;
-											console.log("ONE RESPONSE: ");
-											console.dir(oneResponse);
 										}
 									}
-									
-
-
 									//console.log("FoundResponses was not null, sweet! " + foundResponses.length);
 									res.send({status:'success', data:{responses:foundResponses, quiz:foundQuiz}});
 								}else{
@@ -406,13 +370,10 @@ exports.getresponses = function(req, res){
 								}
 							}
 						);
-
 					}else{
-						//console.log("The current user is NOT the author!  How did this even happen?");
 						res.send({status:'failure', message:"Sorry, but you're not allowed to see those responses."});
 					}
 				}else{
-					//console.log("FoundQuiz was null you did something wrong!");
 					res.send({status:'failure', message:"Sorry, that doesn't seem to be a valid thing to ask for."});
 				}
 			}
@@ -437,7 +398,6 @@ exports.getresponse = function(req, res){
 			}
 			else{
 				if(foundResponse == null || !foundResponse || typeof(foundResponse) == 'undefined'){
-					console.log("It was null or something...");
 					res.send({status:'failure', message:'foundResponse was null'});
 					return;
 				}
@@ -464,7 +424,6 @@ exports.getquizzes = function(req, res){
 	if(req.isAuthenticated()){
 		SweetQuiz.find({author:req.user.email}, function(err, quizzes){
 			if(err) res.send("No quizzes found, something's screwy.");
-			console.log("Found " + quizzes.length + " quizzes.");
 			res.send({quizzes:quizzes, status:'success', message:'got quizzes!'});
 		});
 	}else{
@@ -482,14 +441,11 @@ exports.takequiz = function(req, res){
 
 exports.feed = function(req, res){
 	if(req.isAuthenticated()){
-		console.log("WAS AUTHENTICATED");
 		SweetQuiz.find(function(err, quizzes){
 			if(err) res.send("No quizzes found, something's screwy.");
-			console.log("Found " + quizzes.length + " quizzes.");
 			res.render('list', {quizzes:quizzes});
 		});
 	}else{
-		console.log("WAS NOT AUTHENTICATED");
 		res.redirect('/login', {status:'failure', message:'You must be logged in to do that.'});
 	}
 }
@@ -499,9 +455,7 @@ exports.feed = function(req, res){
  * GET create page.
  */
 exports.create = function(req, res){
-	console.log("HIT CREATE");
 	if(req.isAuthenticated()){
-		console.log("User is authenticated, allow access to /create page");
 		res.render('create', { title: 'Create a new quiz', user: req.user, serverquiz:{name:"SERVER QUIZ"} });
 	}else{
 		res.redirect("/login", {status:'failure', message:'You must be logged in to do that.'});
@@ -509,16 +463,11 @@ exports.create = function(req, res){
 };
 
 exports.quiztest = function(req, res){
-	console.log("THE REQUEST HAS: ");
-	console.dir(req.body);
 	var newQuiz = req.body;
 	var saveable = new SweetQuiz(newQuiz);
-	console.log("Saveable " + saveable.name);
-	console.dir(saveable);
 	saveable.save(function(err, saveable){
 		SweetQuiz.find(function(err, quizzes){
 			if(err) res.send("No quizzes found, something's screwy.");
-			console.log("Found " + quizzes.length + " quizzes.");
 			res.send(quizzes);
 		})
 	});
@@ -537,20 +486,6 @@ exports.quizzes = function(req, res){
 		res.send(quizzes);
 	});
 }
-
-/*
-exports.login = function(req, res, info){
-	console.log("Hit login. " + req.method + " flash: " + req.flash('error'));
-	if(req.method == "POST"){
-		console.log("Must have passed authentication... " + req.flash('error'));
-		res.send({status:"success"});
-	}else if(req.method == "GET"){
-		res.render('login', {message: req.flash('error')});
-	}else{
-		res.send("Don't know what to do with this method.");
-	}
-}
-*/
 
 exports.logout = function(req, res) {
   req.logout();
