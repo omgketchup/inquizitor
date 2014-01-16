@@ -308,11 +308,14 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ui.bootstrap', 'ngSa
 			$scope.quiz.questions.push(newQuestion);
 		}
 		$scope.CopyQuestion = function(question){
-			console.log("Copying a question...");
 			var newQ = {text:question.text, type: question.type, choices: question.choices};
-			//newQ = question;
-
-			$scope.quiz.questions.push(newQ);
+			if(confirm("IMPORTANT: If you copy a question in-place by clicking OK, it could break any existing responses.  BE CAREFUL.  Click cancel to copy this question to the end of the quiz.")){
+				var ind = $scope.quiz.questions.indexOf(question);
+				$scope.quiz.questions.splice(ind, 0, newQ);
+			}else{
+				console.log("Opted out of copying a question");
+				$scope.quiz.questions.push(newQ);
+			}
 		}
 		$scope.DeleteQuestion = function(question){
 			$scope.quiz.questions.splice($scope.quiz.questions.indexOf(question), 1);
