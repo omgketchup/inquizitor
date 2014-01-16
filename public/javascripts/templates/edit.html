@@ -6,11 +6,11 @@
 	<h1 data-ng-bind-html='quiz.name'>{{quiz.name}}</h1>
 	<div class='large-12 columns'>
 		<h4>Title</h4>
-		<input type='text' data-ng-maxlength='65' placeholder='Quiz Title' data-ng-model='quiz.name' required />
+		<input type='text' data-ng-maxlength='150' maxlength='150' placeholder='Quiz Title' data-ng-model='quiz.name' required />
 	</div>
 	<div class='large-12 columns'>
 		<h4>Description</h4>
-		<textarea type='text' data-ng-maxlength='400' placeholder='Description and/or instructions' data-ng-model='quiz.description'></textarea>
+		<textarea type='text' maxlength='1000' data-ng-maxlength='1000' placeholder='Description and/or instructions' data-ng-model='quiz.description'></textarea>
 	</div>
 	<div class='large-12 columns'>
 		<h4>Thank You</h4>
