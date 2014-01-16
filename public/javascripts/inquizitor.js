@@ -115,20 +115,23 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ui.bootstrap', 'ngSa
 		var quizzes = [];
 
 		/* GET ALL MY QUIZZES ON INIT */
-		$http.get('/quizzes')
-		.success(function(response){
-			if(response.status == 'success'){
-				$scope.quizzes = response.quizzes;
-			}else{
-				if(response.code == '401'){
-					this.window.location = '/';
+		$scope.GetAllQuizzes = function(){
+			$http.get('/quizzes')
+			.success(function(response){
+				if(response.status == 'success'){
+					$scope.quizzes = response.quizzes;
+				}else{
+					if(response.code == '401'){
+						this.window.location = '/';
+					}
 				}
-				console.log("Didn't get any quizzes..." + response.message);
-			}
-		})
-		.error(function(response){
-			console.log("Some kind of error... " + response);
-		});
+			})
+			.error(function(response){
+				//console.log("Some kind of error... " + response);
+			});
+		}
+		$scope.GetAllQuizzes();
+		
 
 		$scope.DeleteQuiz = function(quiz){
 			console.log("Attempting to delete a quiz named " + quiz.name + " with the ID: " + quiz._id);
@@ -154,6 +157,25 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ui.bootstrap', 'ngSa
 				console.log("Decided I didn't actually want to delete that, it's cool.");
 			}
 			
+		}
+
+		$scope.CopyQuiz = function(quiz){
+			console.log("Attempting to copy quiz " + quiz._id);
+			
+			$http.post('/copyquiz', 
+				{idToCopy:quiz._id}
+			)
+			.success(function(response){
+				console.log("Success");
+				if(response.status == 'success'){
+					$scope.GetAllQuizzes();
+				}else{
+					alert("That action was unsuccessful, the quiz was not copied.");
+				}
+			})
+			.error(function(response){
+				console.log("Error");
+			});
 		}
 	})
 	.controller('ModalInstanceCtrl', function($scope, $http, $fileUpload, $modalInstance, data){

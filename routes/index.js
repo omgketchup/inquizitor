@@ -122,6 +122,41 @@ exports.signup = function(req, res){
 	}
 }
 
+exports.copyquiz = function (req, res){
+	console.log("Attempting to copy quiz " + req.body.idToCopy);
+	var idToCopy = req.body.idToCopy;
+	if(req.isAuthenticated()){
+		SweetQuiz.findOne({_id: idToCopy}, function(err, foundQuiz){
+			if(err){ console.log("Error while finding quiz: " + err); return; }
+			else{
+				if(foundQuiz != null){
+					console.log("Sweet, found the quiz, let's make a copy.");
+					var theCopy = new SweetQuiz({
+						name: foundQuiz.name + " (copy)",
+						author: foundQuiz.author,
+						type: foundQuiz.type,
+						advancedOptions: foundQuiz.advancedOptions,
+						questions: foundQuiz.questions,
+						description: foundQuiz.description,
+						thankyou: foundQuiz.thankyou,
+						created: Date.now()
+					});
+					theCopy.save(function(err){
+						if(err){ 
+							console.log("Error copying that quiz into a new quiz!"); 
+							res.send({status:"failure", message:"Couldn't copy quiz."})
+							return; 
+						}
+						else{
+							res.send({status:"success", message: "Successfully copied that quiz."});
+						}
+					});
+				}
+			}
+		});
+	}
+}
+
 exports.postquiz = function(req, res){ //async
 	//console.log("Posting to quiz");
 	if(req.isAuthenticated()){

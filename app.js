@@ -144,6 +144,7 @@ app.get('/responses', routes.getresponses); //For getting all of the responses t
 app.get('/quiz', routes.getquiz);
 app.post('/quiz', routes.postquiz);
 app.delete('/quiz', routes.deletequiz);
+app.post('/copyquiz', routes.copyquiz);
 
 app.get('/feed', routes.feed);
 
