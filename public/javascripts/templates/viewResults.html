@@ -1,5 +1,5 @@
 <div class='row' data-ng-show='quiz'>
-	<h1>{{quiz.name}}</h1>
+	<h1 data-ng-bind-html='quiz.name'>{{quiz.name}}</h1>
 	<h3>Responses by: {{email}}</h3>
 	<h5>{{response.submitted | date:'h:mma, EEE MMM d, yyyy'}}</h5>
 	<hr/>

@@ -300,7 +300,8 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ui.bootstrap', 'ngSa
 			if(typeof(question.choices) == 'undefined' || question.choices == null){
 				question.choices = [];
 			}
-			if(question.choices.length > 4){
+			if(question.choices.length > 9){
+				alert("Sorry, you can't add any more choices!");
 				console.log("Too many options, can't add another.");
 				return;
 			}
