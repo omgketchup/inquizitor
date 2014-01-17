@@ -471,12 +471,13 @@ exports.takebadquiz = function(req, res){
 }
 
 exports.takequiz = function(req, res){
-	if(req.params.length <= 0){
+	res.render('templates/front');
+	/*if(req.params.length <= 0){
 		res.redirect('/home');
 	}else{
 		console.log("LEGIT PROBABLY");
 		res.render('templates/front');
-	}
+	}*/
 	
 }
 
