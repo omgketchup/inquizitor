@@ -471,10 +471,7 @@ exports.takebadquiz = function(req, res){
 }
 
 exports.takequiz = function(req, res){
-	console.log("TAKEQUIZ REQ");
-	console.dir(req.params);
 	if(req.params.length <= 0){
-		console.log("GO HOOOOOOOME!");
 		res.redirect('/home');
 	}else{
 		console.log("LEGIT PROBABLY");
