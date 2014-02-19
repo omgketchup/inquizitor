@@ -33,12 +33,12 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ngSanitize'
 			controller:'ResultsCtrl'
 		})
 		.state('results-quiz', {
-			url:'/results/:id',
+			url:'/results/:responseId',
 			templateUrl:'../javascripts/templates/results.html',
 			controller:'ResultsCtrl'
 		})
 		.state('results-quiz-email', {
-			url:'/results/:id/:email',
+			url:'/results/:responseId',
 			templateUrl:'../../javascripts/templates/results.html',
 			controller:'ResultsCtrl'
 		})
@@ -141,18 +141,23 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ngSanitize'
 				data:submission
 			})
 			.success(function(response){
+				console.log("Posted a response");
 				$scope.submitClass = '';
-				//console.log("SUCCESSFULLY SUBMITTED A RESPONSE TO THE QUIZ BY THE GUY: " + $scope.email);
+
+				if(response.status == 'success'){
+					console.log("SUCCESS RESPONSE! " + response.data);
+					var rid = response.data;
+				}
+				else{
+					alert(response.message);
+					return;
+				}
 				if($scope.quiz.advancedOptions.resultType == 'poll'){
-					//console.log("Should redirect to the poll results view");
-					$state.go('results-quiz-email', {id: q._id, email:$scope.email});
+					$state.go('results-quiz-email', {responseId: rid});
 				}else if($scope.quiz.advancedOptions.resultType == 'self'){
-					//console.log("Should redirect to the self results view");
-					$state.go('results-quiz-email', {id: q._id, email:$scope.email});
+					$state.go('results-quiz-email', {responseId: rid});
 				}else{
-					//console.log("Should redirect to the general results view");
-					//console.log($scope.email);
-					$state.go('results-quiz-email', {id: q._id, email:$scope.email});
+					$state.go('results-quiz-email', {responseId: rid});
 				}
 			})
 			.error(function(response){
@@ -168,7 +173,7 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ngSanitize'
 		//console.log("Finished TakeCtrl...");
 	})
 	.controller('ResultsCtrl', function($scope, $http, $state, $stateParams, $location, $anchorScroll){
-		//console.log("USING THE RESULTS CONTROLLER");
+		console.log("USING THE RESULTS CONTROLLER");
 
 
 		window.top.postMessage("change", "*");
@@ -180,6 +185,8 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ngSanitize'
 				//console.log("Email address no good!");
 				return;
 			}
+			
+			
 			$http({
 				url: '/response',
 				method: 'GET',
@@ -200,6 +207,37 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ngSanitize'
 			});
 		}
 
+		//GODDAMMIT
+		if($stateParams.responseId != null && $stateParams.responseId != ''){
+			console.log("STATE PARAMS RESPONSE ID: " + $stateParams.responseId);
+			$http({
+				url: '/specresponse',
+				method: 'GET',
+				params: {
+					responseId: $stateParams.responseId
+				}
+			})
+			.success(function(response){
+				console.log("Success lookup");
+				if(response.status == 'success'){
+					var d = response.data;
+					console.debug(d);
+					$scope.responses = d.response;
+					$scope.quiz = d.quiz;
+					console.log("GOT QUIZ: " );
+					console.debug($scope.quiz);
+				}else{
+					console.log("Got error: " + response.message);
+				}
+			})
+			.error(function(response){
+				console.log("ERROR ON LOOKUP");
+			});
+		}else{
+			console.log("ResponseID not found");
+		}
+
+		/*
 		//Auto-load the responder's response, if there is one...
 		if($stateParams.email != '' && $stateParams.email != null){
 			//email is good...
@@ -229,6 +267,7 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ngSanitize'
 		}else{
 			//console.log("Invalid email address to auto-load");
 		}
+		*/
 	})
 	.directive('match',['$parse', function ($parse) {
         return {

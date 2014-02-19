@@ -139,6 +139,7 @@ app.post('/upload', routes.uploadimage);
 app.get('/view', routes.viewquiz);
 app.get('/view/:id', routes.viewquiz);
 app.get('/response', routes.getresponse);
+app.get('/specresponse', routes.getspecificresponse);
 app.post('/response', routes.postresponse);
 app.get('/responses', routes.getresponses); //For getting all of the responses to one quiz.
 app.get('/quiz', routes.getquiz);

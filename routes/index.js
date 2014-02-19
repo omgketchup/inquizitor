@@ -208,8 +208,6 @@ exports.postquiz = function(req, res){ //async
 	}else{
 		res.send({status:"failure", message: "User was not authenticated"});
 	}
-	
-	
 }
 exports.getquiz = function(req, res){ //async
 	SweetQuiz.findOne(
@@ -250,7 +248,6 @@ exports.getquiz = function(req, res){ //async
 													//console.debug("Question: " + ques.text + ", answer: " + answ.response);
 												}
 											}
-											
 										}
 										res.send({status:"success", message:"Got that quiz, what an accomplishment! " + q.numba, quiz:q});
 									}else{
@@ -324,28 +321,129 @@ exports.postresponse = function(req, res){
 	var response = req.body;
 	if(response.email != response.cemail){
 		res.send({status:'failure', message: 'Email and email confirmation did not match.'});
+		return;
 	}
-	QuizResponse.update(
-		{
-			responseTo: response.responseTo,
-			email:response.email
-		},
-		{$set:{
-			responseTo: response.responseTo,
-			email: response.email,
-			answers: response.answers,
-			submitted: Date.now()
-		}},
-		{upsert:true},
-		function(err, fin, details){
+	var em = response.email;
+
+	SweetQuiz.findOne(
+		{_id:response.responseTo},
+		function(err, found){
 			if(err){
-				res.send({status:'failure', message: "Got error: " + err}); 
+				res.send({status:'failure', message: 'Got error: ' + err});
 			}else{
-				res.send({status:'success'});
+				var opt = found.advancedOptions;
+
+				if(opt.multipleResponses){
+					var quizResponse = new QuizResponse(response);
+					quizResponse.submitted = Date.now();
+					quizResponse.email = em;
+
+					quizResponse.save(
+						function(err, saved){
+							if(err){ 
+								console.log("Got an error while saving a multiple response: " + err); 
+								res.send({status:'failure', message:"Got an error while saving a multiple response: " + err});
+							}else{
+								console.log("Successfully saving a multiple response.");
+								console.dir(saved);
+								res.send({status:"success", data:saved._id});
+							}
+						}
+					);
+				}else{
+					if(opt.updateResponses){
+						QuizResponse.update(
+							{
+								responseTo: response.responseTo,
+								email:response.email
+							},
+							{$set:{
+								responseTo: response.responseTo,
+								email: response.email,
+								answers: response.answers,
+								submitted: Date.now()
+							}},
+							{upsert:true},
+							function(err, fin, details){
+								if(err){
+									res.send({status:'failure', message: "Got error: " + err}); 
+								}else{
+									res.send({status:'success'});
+								}
+							}
+						);
+					}else{
+						QuizResponse.findOne(
+						{
+							responseTo: response.responseTo,
+							email: response.email
+						},
+						function(err, foundQuizResponse){
+							if(err){ 
+								var qresponse = new QuizResponse(response);
+								qresponse.submitted = Date.now();
+								qresponse.email = em;
+								qresponse.save(function(err, saved){
+									if(err){ console.debug("Error saving: " + err); return; }
+									else{
+										res.send({status:'success', data: saved._id});
+									}
+								});
+							}
+							else{
+								if(foundQuizResponse && foundQuizResponse != null){
+									//console.log("Already got a Response matching this quiz and email address, you can't add another.");
+									res.send({status:"failure", message:"You have already submitted a response to this quiz, you cannot submit another."});
+								}else{
+									var qresponse = new QuizResponse(response);
+									qresponse.submitted = Date.now();
+									qresponse.email = em;
+									qresponse.save(function(err, saved){
+										if(err){ console.debug("Error saving: " + err); return; }
+										else{
+											res.send({status:'success', data: saved._id});
+										}
+									});
+								}
+							}
+						});
+					}
+				}
 			}
 		}
 	);
 }
+
+exports.getspecificresponse = function(req, res){
+	var rid = req.query.responseId;
+
+	QuizResponse.findOne(
+		{
+			_id:rid
+		}, 
+		function(err, found){
+			if(err){ 
+				res.send({status:"failure", message:"Got an error: " + err});
+				return; 
+			}
+			else{
+				SweetQuiz.findOne(
+					{
+						_id:found.responseTo
+					},
+					function(err, foundQuiz){
+						if(err){ console.log("Error: " + err); res.send({status:'failure', message:"error: " + err}); return;}
+						else{
+							res.send({status:'success', data: {response: found, quiz: foundQuiz}});
+						}
+					}
+				);
+			}
+		}
+	);
+
+}
+
 exports.getresponses = function(req, res){
 	//you must be authenticated
 	//you must be the author of the quiz

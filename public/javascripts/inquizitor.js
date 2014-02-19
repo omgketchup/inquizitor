@@ -34,7 +34,7 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ui.bootstrap', 'ngSa
 			controller: 'AnalyticsCtrl'
 		})
 		.state('viewResults', {
-			url:'/viewResults/:id/:email',
+			url:'/viewResults/:id/:email/:responseId',
 			templateUrl: 'javascripts/templates/viewResults.html',
 			controller: 'ViewResultsCtrl'
 		})
@@ -82,7 +82,29 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ui.bootstrap', 'ngSa
 		console.log("USING VIEW RESULTS CONTROLLER");
 		console.debug($stateParams);
 		$scope.email = $stateParams.email;
+		$scope.responseId = $stateParams.responseId;
 
+		$http({
+			url:'/specresponse',
+			method:'GET',
+			params: {
+				responseId: $stateParams.responseId
+			}
+		})
+		.success(function(response){
+			if(response.status == 'success'){
+				$scope.response = response.data.response;
+				console.log("GOT SUCCESS FROM SERVER, RESPONSE IS DISPLAYED");
+				console.debug($scope.response);
+			}else{
+				console.log("BAD DATA FROM SERVER: " + response.message);
+			}
+		})
+		.error(function(response){
+			console.log("SERVER THREW AN ERROR");
+		})
+
+		/*
 		$http({
 			url:'/response',
 			method:'GET',
@@ -106,7 +128,7 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ui.bootstrap', 'ngSa
 		.error(function(response){
 			console.log("Something is not right.");
 		})
-
+		*/
 
 		console.log("DONE WITH VIEW RESULTS CONTROLLER");
 	})
@@ -255,7 +277,8 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ui.bootstrap', 'ngSa
 			timeLimit:0,
 			expirationDT:0,
 			resultType:"self",
-			isPublic:false
+			isPublic:false,
+			updateResponses:true
 		} //self shows your own results, poll shows the totals, will add more later.
 
 		if($stateParams.id != null && $stateParams.id != '' && $stateParams.id != 0){
@@ -281,6 +304,11 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ui.bootstrap', 'ngSa
 		}else{
 			//Populate $scope.quiz with a brand new quiz.
 			$scope.quiz = {};
+		}
+
+		$scope.ShowAdvancedOptions = function(){
+			console.log("Showing advanced options:");
+			console.debug($scope.quiz.advancedOptions);
 		}
 
 		$scope.ShowAnalytics = function(id){
@@ -386,8 +414,14 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ui.bootstrap', 'ngSa
 			}
 
 			console.log("DO WE HAVE ADVANCED OPTIONS HERE:  " + $scope.quiz.type);
+			
+			if($scope.quiz.advancedOptions.multipleResponses){
+				$scope.quiz.advancedOptions.updateResponses = false;
+			}
 			$scope.quiz.advancedOptions = {
-				resultType : $scope.quiz.type
+				resultType : $scope.quiz.type, 
+				multipleResponses: $scope.quiz.advancedOptions.multipleResponses, 
+				updateResponses: $scope.quiz.advancedOptions.updateResponses
 			};
 			console.debug($scope.quiz.advancedOptions);
 			$scope.savingAllowed = false;

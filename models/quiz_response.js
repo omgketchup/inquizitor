@@ -4,6 +4,7 @@ var mongoose = require('mongoose')
 
 var QuizResponseSchema = new Schema({
     responder: String,
+    email: String,
     responseTo: String,
     answers: {type:Array, "default":[]},
     submitted: String,

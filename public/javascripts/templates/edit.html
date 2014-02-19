@@ -49,6 +49,14 @@
 					<option>Private</option>
 				</select>
 			</div>
+			<div class='large-3 columns'>
+				<h5>Multiple Responses</h5>
+				<input data-ng-model='quiz.advancedOptions.multipleResponses' data-ng-change='ShowAdvancedOptions()'  placeholder='multiple responses?' type='checkbox' />
+			</div>
+			<div class='large-3 columns' data-ng-show='!quiz.advancedOptions.multipleResponses'>
+				<h5>Update Existing Responses</h5>
+				<input data-ng-model='quiz.advancedOptions.updateResponses' data-ng-change='ShowAdvancedOptions()'  placeholder='update responses?' type='checkbox' />
+			</div>
 		</div>
 	</div>
 	<div class='large-12 columns' data-ng-show='quiz.questions.length'>
