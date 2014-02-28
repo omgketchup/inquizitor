@@ -230,7 +230,7 @@ exports.getquiz = function(req, res){ //async
 									return;
 								}else{
 									if(foundResponses != null && typeof(foundResponses) != 'undefined' && foundResponses.length != 0){
-										console.dir(foundResponses);
+										//console.dir(foundResponses);
 										if(foundResponses.length == 0){
 											if(foundResponses.text != '' && typeof(foundResponses.text) != 'undefined'){
 												q.numba = 1;
@@ -257,11 +257,11 @@ exports.getquiz = function(req, res){ //async
 							}
 						);
 					}else{
-						console.send({status:"success", message:"Got quiz, no responses or anything", quiz:q});
+						res.send({status:"success", message:"Got quiz, no responses or anything", quiz:q});
 					}
 				}else{
 					//STRIP isCorrect FLAGS FROM HERE!
-					console.send({status:"success", message:"Got quiz, no responses or anything", quiz:q});
+					res.send({status:"success", message:"Got quiz, no responses or anything", quiz:q});
 				}
 			}else{
 				res.send({status:"failure", message:"No quizzes matched that query."});
@@ -273,8 +273,8 @@ exports.getquiz = function(req, res){ //async
 exports.deletequiz = function(req, res){ //async
 	console.log("Deleting quiz: " + req.body.quiz);
 	if(req.isAuthenticated()){
-		console.log("Is the quiz authored by the requester? " + req.user.email);
-		console.dir(req.query);
+		//console.log("Is the quiz authored by the requester? " + req.user.email);
+		//console.dir(req.query);
 		
 		SweetQuiz.findOne({_id: new ObjectId(req.query._id)}, function(err, quiz){
 			console.log("Finished FindOne for a quiz" + quiz);
