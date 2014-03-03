@@ -484,12 +484,12 @@ exports.getresponses = function(req, res){
 												var answer = oneResponse.answers[i];
 
 												var correct = false;
-												console.log("RightAnswer: " + rightAnswer);
+												//console.log("RightAnswer: " + rightAnswer);
 												if(typeof(rightAnswer) != 'undefined' && answer.response == rightAnswer.text){
 													correct = true;
 													numCorrect++;
 												}
-												console.log("Q/A combo: " + question.text + "/" + answer.response + " / " + correct);
+												//console.log("Q/A combo: " + question.text + "/" + answer.response + " / " + correct);
 											}
 											var percentage = numCorrect / foundQuiz.questions.length;
 											oneResponse.percentage = percentage;
