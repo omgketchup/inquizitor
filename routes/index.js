@@ -477,7 +477,7 @@ exports.getresponses = function(req, res){
 												for(var n = 0; n<question.choices.length; n++){
 													var yeaman = question.choices[n];
 													if(yeaman.isCorrect){
-														console.log("CORRECT ANSWER IS " + yeaman.text);
+														//console.log("CORRECT ANSWER IS " + yeaman.text);
 														rightAnswer = yeaman;
 													}
 												}
