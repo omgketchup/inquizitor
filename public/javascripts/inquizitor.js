@@ -77,6 +77,22 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ui.bootstrap', 'ngSa
 		.error(function(response){
 			console.log("ERROR FROM SERVER WHEN GETTING A LIST OF RESPONSES");
 		})
+
+		$scope.downloadAsCsv = function(){
+			if($scope.responses != null && typeof($scope.responses) != 'undefined'){
+				var csvContent = "data:text/csv;charset=utf-8,";
+				var data = $scope.responses;
+				data.forEach(function(infoArray, index){
+					dataString = infoArray.join(",");
+					csvContent += index < infoArray.length ? dataString + "\n" : dataString;
+				});
+				console.log("Created CSV file, here's the raw text: ");
+				console.log(csvContent);
+				var encodedUri = encodeURI(csvContent);
+				console.log("About to download it");
+				window.open(encodedUri);
+			}
+		}
 	})
 	.controller('ViewResultsCtrl', function($scope, $http, $stateParams){
 		console.log("USING VIEW RESULTS CONTROLLER");
