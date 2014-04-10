@@ -89,7 +89,10 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ui.bootstrap', 'ngSa
 				}
 				$scope.csv = encodeURI(csvString);
 				console.log("CSV AS RAW TEXT:");
-				console.log($scope.csv);
+				console.log(csvString);
+				location.href = csvString;
+				var blob = new Blob([csvString], {type:'text/plain'});
+				$scope.url = (window.URL || window.webkitURL).createObjectURL(blob);
 				$scope.downloadready = true;
 			}
 
