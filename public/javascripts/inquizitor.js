@@ -73,6 +73,24 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ui.bootstrap', 'ngSa
 			$scope.quiz = response.data.quiz;
 			console.log("There were like, a lot of them. " + $scope.responses.length);
 			console.debug($scope.responses);
+
+
+
+			console.log("About to download as CSV");
+			if($scope.responses != null && typeof($scope.responses) != 'undefined'){
+				var data = $scope.responses;
+				console.log("Abotu to loop through and create a CSV file");
+				var csvString = "";
+				for(var i = 0; i<data.length; i++){
+					var row = data[i];
+					var answer = row.answers[1].response;
+					var rowstring = row.email + "," + answer + "\r\n";
+					csvString += rowstring;
+				}
+				$scope.csv = csvString;
+			}
+
+			
 		})
 		.error(function(response){
 			console.log("ERROR FROM SERVER WHEN GETTING A LIST OF RESPONSES");
@@ -90,11 +108,7 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ui.bootstrap', 'ngSa
 					var rowstring = row.email + "," + answer + "\r\n";
 					csvString += rowstring;
 				}
-				console.log("Created CSV file, here's the raw text: ");
-				str = escape(csvString);
-				console.log(csvString);
-				//WHAT THE FUCK HOW IS THIS SO HARD
-				window.open(csvString);
+				$scope.csv = csvString;
 			}
 		}
 	})
