@@ -85,7 +85,7 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ui.bootstrap', 'ngSa
 				console.log("Abotu to loop through and create a CSV file");
 
 				//MAYBE
-		            var array = typeof objArray != 'object' ? JSON.parse(data) : data;
+		            var array = typeof(objArray) != 'object' ? JSON.parse(data) : data;
 		            var str = '';
 
 		            for (var i = 0; i < array.length; i++) {
