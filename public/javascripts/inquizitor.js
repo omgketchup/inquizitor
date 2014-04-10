@@ -83,26 +83,17 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ui.bootstrap', 'ngSa
 			if($scope.responses != null && typeof($scope.responses) != 'undefined'){
 				var data = $scope.responses;
 				console.log("Abotu to loop through and create a CSV file");
-
-				//MAYBE
-		            var array = (typeof(data) != 'object') ? JSON.parse(data) : data;
-		            console.log("89...");
-		            var str = '';
-
-		            for (var i = 0; i < array.length; i++) {
-		                var line = '';
-		                for (var index in array[i]) {
-		                    if (line != '') line += ','
-
-		                    line += array[i][index];
-		                }
-
-		                str += line + '\r\n';
-		            }
-		        //MAYBE NOT
-
+				var csvString = "data:text/csv;charset=utf-8,";
+				for(var i = 0; i<data.length; i++){
+					var row = data[i];
+					var answer = row.answers[1].response;
+					var rowstring = row.email + "," + answers[1].response + "\r\n";
+					csvString += rowstring;
+				}
 				console.log("Created CSV file, here's the raw text: ");
+				str = escape(str);
 				console.log(str);
+				window.open(str);
 			}
 		}
 	})
