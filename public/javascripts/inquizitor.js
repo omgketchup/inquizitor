@@ -81,18 +81,27 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ui.bootstrap', 'ngSa
 		$scope.downloadAsCsv = function(){
 			console.log("About to download as CSV");
 			if($scope.responses != null && typeof($scope.responses) != 'undefined'){
-				var csvContent = "data:text/csv;charset=utf-8,";
 				var data = $scope.responses;
 				console.log("Abotu to loop through and create a CSV file");
-				data.forEach(function(infoArray, index){
-					dataString = infoArray.join(",");
-					csvContent += index < infoArray.length ? dataString + "\n" : dataString;
-				});
+
+				//MAYBE
+		            var array = typeof objArray != 'object' ? JSON.parse(data) : data;
+		            var str = '';
+
+		            for (var i = 0; i < array.length; i++) {
+		                var line = '';
+		                for (var index in array[i]) {
+		                    if (line != '') line += ','
+
+		                    line += array[i][index];
+		                }
+
+		                str += line + '\r\n';
+		            }
+		        //MAYBE NOT
+
 				console.log("Created CSV file, here's the raw text: ");
-				console.log(csvContent);
-				var encodedUri = encodeURI(csvContent);
-				console.log("About to download it");
-				window.open(encodedUri);
+				console.log(str);
 			}
 		}
 	})
