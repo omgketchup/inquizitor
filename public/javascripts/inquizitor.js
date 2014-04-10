@@ -79,9 +79,11 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ui.bootstrap', 'ngSa
 		})
 
 		$scope.downloadAsCsv = function(){
+			console.log("About to download as CSV");
 			if($scope.responses != null && typeof($scope.responses) != 'undefined'){
 				var csvContent = "data:text/csv;charset=utf-8,";
 				var data = $scope.responses;
+				console.log("Abotu to loop through and create a CSV file");
 				data.forEach(function(infoArray, index){
 					dataString = infoArray.join(",");
 					csvContent += index < infoArray.length ? dataString + "\n" : dataString;
