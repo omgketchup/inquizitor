@@ -20,24 +20,26 @@
 			</thead>
 			<tbody>
 				<tr data-ng-repeat='r in responses | limitTo:1000'>
-					<table>
-						<tr>
-							<td>
-								<a ui-sref='viewResults({email:r.email, id:quiz._id, responseId: r._id})'>{{r.email}}</a> 
-							</td>
-							<td data-ng-show='quiz.type == "poll" || quiz.type == "Poll"'>
-								{{r.percentage * 100 | number:2}}%
-							</td>
-							<td>
-								{{r.submitted | date:'MM/dd/yy, h:mma'}}
-							</td>
-						</tr>
-						<tr>
-							<td colspan="2">
-								<span>{{r.answers[1].response}}</span> 
-							</td>
-						</tr>
-					</table>
+					<td>
+						<table>
+							<tr>
+								<td>
+									<a ui-sref='viewResults({email:r.email, id:quiz._id, responseId: r._id})'>{{r.email}}</a> 
+								</td>
+								<td data-ng-show='quiz.type == "poll" || quiz.type == "Poll"'>
+									{{r.percentage * 100 | number:2}}%
+								</td>
+								<td>
+									{{r.submitted | date:'MM/dd/yy, h:mma'}}
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<span>{{r.answers[1].response}}</span> 
+								</td>
+							</tr>
+						</table>
+					</td>
 				</tr>
 				<tr data-ng-repeat='r in responses | limitTo:1000'>
 					
