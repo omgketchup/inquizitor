@@ -57,7 +57,7 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ui.bootstrap', 'ngSa
 		console.log("Using the ViewCtrl");
 		
 	})
-	.controller('AnalyticsCtrl', function($scope, $http, $stateParams){
+	.controller('AnalyticsCtrl', function($scope, $http, $stateParams, $element){
 		console.log("Using the analytics controller...");
 		//GET ALL RESPONSES TO THIS QUIZ SO YOU CAN LIST'EM
 		$http({
