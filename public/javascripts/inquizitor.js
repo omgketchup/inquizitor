@@ -91,9 +91,9 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ui.bootstrap', 'ngSa
 					csvString += rowstring;
 				}
 				console.log("Created CSV file, here's the raw text: ");
-				str = escape(str);
-				console.log(str);
-				window.open(str);
+				str = escape(csvString);
+				console.log(csvString);
+				window.open(csvString);
 			}
 		}
 	})
