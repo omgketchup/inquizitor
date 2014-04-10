@@ -57,7 +57,7 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ui.bootstrap', 'ngSa
 		console.log("Using the ViewCtrl");
 		
 	})
-	.controller('AnalyticsCtrl', function($scope, $http, $stateParams, $element){
+	.controller('AnalyticsCtrl', function($scope, $http, $stateParams){
 		console.log("Using the analytics controller...");
 		//GET ALL RESPONSES TO THIS QUIZ SO YOU CAN LIST'EM
 		$http({
@@ -83,7 +83,7 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ui.bootstrap', 'ngSa
 			if($scope.responses != null && typeof($scope.responses) != 'undefined'){
 				var data = $scope.responses;
 				console.log("Abotu to loop through and create a CSV file");
-				var csvString = "data:text/csv;charset=utf-8,";
+				var csvString = "";
 				for(var i = 0; i<data.length; i++){
 					var row = data[i];
 					var answer = row.answers[1].response;
@@ -93,11 +93,8 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ui.bootstrap', 'ngSa
 				console.log("Created CSV file, here's the raw text: ");
 				str = escape(csvString);
 				console.log(csvString);
-				var a = angular.element('<a></a>');
-				a.download = "answers.csv";
-				a.href = csvString;
-				a.click();
-				//window.open(csvString);
+				//WHAT THE FUCK HOW IS THIS SO HARD
+				window.open(csvString);
 			}
 		}
 	})
