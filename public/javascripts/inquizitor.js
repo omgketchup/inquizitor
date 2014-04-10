@@ -87,10 +87,10 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ui.bootstrap', 'ngSa
 					var rowstring = row.email + "," + answer + "\r\n";
 					csvString += rowstring;
 				}
-				$scope.csv = csvString;
+				$scope.csv = escape(csvString);
+				$scope.downloadready = true;
 			}
 
-			
 		})
 		.error(function(response){
 			console.log("ERROR FROM SERVER WHEN GETTING A LIST OF RESPONSES");
