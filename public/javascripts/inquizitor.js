@@ -93,7 +93,7 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ui.bootstrap', 'ngSa
 				console.log("Created CSV file, here's the raw text: ");
 				str = escape(csvString);
 				console.log(csvString);
-				var a = createElement('a');
+				var a = angular.element('<a></a>');
 				a.download = "answers.csv";
 				a.href = csvString;
 				a.click();
