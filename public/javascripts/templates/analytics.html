@@ -19,7 +19,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr data-ng-repeat='r in responses | orderObjectBy: "percentage" | limitTo:1000'>
+				<tr data-ng-repeat='r in responses | limitTo:1000'>
 					<td>
 						<a ui-sref='viewResults({email:r.email, id:quiz._id, responseId: r._id})'>{{r.email}}</a> 
 					</td>
