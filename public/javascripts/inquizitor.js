@@ -87,7 +87,7 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ui.bootstrap', 'ngSa
 					var rowstring = row.email + "," + answer + "\r\n";
 					csvString += rowstring;
 				}
-				$scope.csv = escape(csvString);
+				$scope.csv = encodeURI(csvString);
 				console.log("CSV AS RAW TEXT:");
 				console.log($scope.csv);
 				$scope.downloadready = true;
