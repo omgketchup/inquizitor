@@ -30,6 +30,11 @@
 						{{r.submitted | date:'MM/dd/yy, h:mma'}}
 					</td>
 				</tr>
+				<tr data-ng-repeat='r in responses | limitTo:1000'>
+					<td colspan="2">
+						<span>{{r.answers[1].response}}</span> 
+					</td>
+				</tr>
 			</tbody>
 		</table>
 	</div>
