@@ -81,8 +81,9 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ui.bootstrap', 'ngSa
 				for(var i = 0; i<data.length; i++){
 					var row = data[i];
 					var answer = row.answers[1].response;
+					console.log("ANSWER: " + answer);
 					var betteranswer = answer.replace(/\,/g,"&comma; ");
-					var rowstring = "\"" + row.email + "\"" + "¿" + "\"" + answer + "\"" + ";\r\n";
+					var rowstring = "\"" + row.email + "\"" + "¿" + "\"" + betteranswer + "\"" + ";\r\n";
 					csvString += rowstring;
 				}
 				console.log(csvString);
