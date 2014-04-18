@@ -73,9 +73,6 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ui.bootstrap', 'ngSa
 			$scope.quiz = response.data.quiz;
 			console.log("There were like, a lot of them. " + $scope.responses.length);
 			console.debug($scope.responses);
-
-
-
 			console.log("About to download as CSV");
 			if($scope.responses != null && typeof($scope.responses) != 'undefined'){
 				var data = $scope.responses;
@@ -84,7 +81,8 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ui.bootstrap', 'ngSa
 				for(var i = 0; i<data.length; i++){
 					var row = data[i];
 					var answer = row.answers[1].response;
-					var rowstring = "\"" + row.email + "\"" + "," + "\"" + answer + "\"" + ";\r\n";
+					var betteranswer = answer.replace(/\,/g,"&comma; ");
+					var rowstring = "\"" + row.email + "\"" + "¿" + "\"" + answer + "\"" + ";\r\n";
 					csvString += rowstring;
 				}
 				console.log(csvString);
@@ -92,7 +90,6 @@ var app = angular.module('app', [ 'ngAnimate','ui.router', 'ui.bootstrap', 'ngSa
 				$scope.url = (window.URL || window.webkitURL).createObjectURL(blob);
 				$scope.downloadready = true;
 			}
-
 		})
 		.error(function(response){
 			console.log("ERROR FROM SERVER WHEN GETTING A LIST OF RESPONSES");
