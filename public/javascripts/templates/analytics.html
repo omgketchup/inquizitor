@@ -29,7 +29,7 @@
 						<table style='width:100%;'>
 							<tr>
 								<td>
-									<a ui-sref='viewResults({email:r.email, id:quiz._id, responseId: r._id})'>{{r.email}}</a> 
+									<a ui-sref='viewResults({email:r.email, id:quiz._id, responseId: r._id})'>{{r.email}} | {{r.answers[0].response}}</a> 
 								</td>
 								<td data-ng-show='quiz.type == "poll" || quiz.type == "Poll"'>
 									{{r.percentage * 100 | number:2}}%
