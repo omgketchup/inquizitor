@@ -1,27 +1,27 @@
 <div class='row' ng-show='!quiz'>
-	<h1>{{message}}</h1>
+    <h1>{{message}}</h1>
 </div>
 <div class='row' data-ng-show='quiz'>
-	<div class='large-12 medium-12 small-12 columns'>
-	<form id='quizform' name='quizform' ng-class='val' novalidate>
-		<div class='row' data-ng-show='errorMessage.length'>
-			<div class='label alert large-12 columns'>
-				<h1>{{errorMessage}}</h1>
-			</div>
-			<div class='large-12 columns'>
-				<h4><a data-ng-click='TakeMeHome()'>Go back home.</a></h4>
-			</div>
-		</div>
-		<div class='row' data-ng-show='!errorMessage'>
-			<div class='row quiz_heading'>
-				<div class='large-12 columns'>
-					<h1 data-ng-bind-html='quiz.name'>{{quiz.name}}</h1>
-					<h4 data-ng-bind-html='quiz.description'>{{quiz.description}}</h4>
-				</div>
-			</div>
-			<div class='row quiz_contents'>
-				<div class='large-12 columns'>
-					<h4 class='panel'>
+    <div class='large-12 medium-12 small-12 columns'>
+        <form id='quizform' name='quizform' ng-class='val' novalidate>
+            <div class='row' data-ng-show='errorMessage.length'>
+                <div class='label alert large-12 columns'>
+                    <h1>{{errorMessage}}</h1>
+                </div>
+                <div class='large-12 columns'>
+                    <h4><a data-ng-click='TakeMeHome()'>Go back home.</a></h4>
+                </div>
+            </div>
+            <div class='row' data-ng-show='!errorMessage'>
+                <div class='row quiz_heading'>
+                    <div class='large-12 columns'>
+                        <h1 data-ng-bind-html='quiz.name'>{{quiz.name}}</h1>
+                        <h4 data-ng-bind-html='quiz.description'>{{quiz.description}}</h4>
+                    </div>
+                </div>
+                <div class='row quiz_contents'>
+                    <div class='large-12 columns'>
+                        <h4 class='panel'>
 						<label class='showvalidation'>
 							Please enter your email
 							<input data-ng-model='email' type='email' name='email' id='email' placeholder='abc@xyz.com' required></input>
@@ -32,55 +32,46 @@
 							data-match='email'></input>
 						</label>
 					</h4>
-				</div>
-				<div class='large-12 columns' data-ng-repeat='question in quiz.questions'>
-					<h4 data-ng-bind-html='question.text'></h4>
-					<textarea data-ng-model="question.response" data-ng-show='question.type != "multiple_choice"'></textarea>
-					<div class='large-12 columns' data-ng-show='question.type == "multiple_choice"'>
-						<ul class='large-block-grid-5 medium-block-grid-5 small-block-grid-5'>
-							<li data-ng-repeat='choice in question.choices' >
-								<label style='text-align:center;'>
-									<img data-ng-show='choice.img' data-ng-src='{{choice.img}}' data-ng-attr-alt='{{choice.text}}' data-ng-attr-title='{{choice.text}}' style='margin-bottom:5px;' />
-									<input 
-										style='display:block; margin-bottom:0px; margin-left:auto; margin-right:auto;'
-										ng-model ='question.response'
-										value='{{choice.text}}'
-										name='{{choice.text}}'
-										ng-change='Debug(question)'
-										type='radio'
-										ng-required='question.type == "multiple_choice"'
-									/>
-									{{choice.text}}
-								</label>
-							</li>
-						</ul>
-					</div>
-					<!--<select 
+                    </div>
+                    <div class='large-12 columns' data-ng-repeat='question in quiz.questions'>
+                        <h4 data-ng-bind-html='question.text'></h4>
+                        <!-- <textarea data-ng-model="question.response" data-ng-show='question.type != "multiple_choice"'></textarea> -->
+                        <div class='large-12 columns' data-ng-show='question.type == "multiple_choice"'>
+                            <ul class='large-block-grid-5 medium-block-grid-5 small-block-grid-5'>
+                                <li data-ng-repeat='choice in question.choices'>
+                                    <label style='text-align:center;'>
+                                        <img data-ng-show='choice.img' data-ng-src='{{choice.img}}' data-ng-attr-alt='{{choice.text}}' data-ng-attr-title='{{choice.text}}' style='margin-bottom:5px;' />
+                                        <input style='display:block; margin-bottom:0px; margin-left:auto; margin-right:auto;' ng-model='question.response' value='{{choice.text}}' name='{{question.text}}' ng-change='Debug(question)' type='radio' ng-required='question.type == "multiple_choice"' /> {{choice.text}}
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--<select 
 						ng-model = "question.response"
 						ng-show='question.type == "multiple_choice"'
 						ng-options="choice.text for choice in question.choices"
 					> -->
-						<!-- load options from the app somehow -->
-					<!-- </select>-->
-				</div>
-				<div class='large-12 medium-12 small-12 columns' ng-show='validationError'>
-					<div class='row'>
-						<div class='large-12 medium-12 small-12 alertback radius columns'>
-							<p style='font-size:2em;' ng-bind='validationError'></p>
-						</div>
-					</div>
-				</div>
-				<div class='large-12 columns'>
-					<h4 class='right'>
+                        <!-- load options from the app somehow -->
+                        <!-- </select>-->
+                    </div>
+                    <div class='large-12 medium-12 small-12 columns' ng-show='validationError'>
+                        <div class='row'>
+                            <div class='large-12 medium-12 small-12 alertback radius columns'>
+                                <p style='font-size:2em;' ng-bind='validationError'></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='large-12 columns'>
+                        <h4 class='right'>
 						<!-- <a class='button radius alert greenback' data-ng-disabled='!quizform.$valid' data-ng-class='submitClass' data-ng-click='SubmitResponse()'>Submit</a> -->
 						<a class='button radius alert greenback' data-ng-class='submitClass' data-ng-click='SubmitResponse()'>Submit</a>
 					</h4>
-				</div>
-			</div>
-			<div class='row quiz_footer'>
+                    </div>
+                </div>
+                <div class='row quiz_footer'>
 
-			</div>
-		</div>
-		</form>
-	</div>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
