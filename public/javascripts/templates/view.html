@@ -35,7 +35,7 @@
                     </div>
                     <div class='large-12 columns' data-ng-repeat='question in quiz.questions'>
                         <h4 data-ng-bind-html='question.text'></h4>
-                        <!-- <textarea data-ng-model="question.response" data-ng-show='question.type != "multiple_choice"'></textarea> -->
+                        <textarea data-ng-model="question.response" data-ng-show='question.type != "multiple_choice"'></textarea>
                         <div class='large-12 columns' data-ng-show='question.type == "multiple_choice"'>
                             <ul class='large-block-grid-5 medium-block-grid-5 small-block-grid-5'>
                                 <li data-ng-repeat='choice in question.choices'>
