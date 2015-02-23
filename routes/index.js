@@ -626,40 +626,40 @@ exports.getresponses = function(req, res) {
                                 }
                                 if (foundResponses != null) {
                                     //CALCULATE PERCENTAGES FOR MULTIPLE CHOICE QUIZ RESULTS WITH ANSWERS
-                                    if (foundQuiz.type == 'poll' || foundQuiz.type == 'Poll') {
-                                        for (var q = 0; q < foundResponses.length; q++) {
-                                            var oneResponse = foundResponses[q];
-                                            var numCorrect = 0;
-                                            var validQuestions = 0;
-                                            for (var i = 0; i < foundQuiz.questions.length; i++) {
-                                                var question = foundQuiz.questions[i];
-                                                if (question.type == 'multiple_choice') {
-                                                    validQuestions++;
+                                    //if (foundQuiz.type == 'poll' || foundQuiz.type == 'Poll') {
+                                    for (var q = 0; q < foundResponses.length; q++) {
+                                        var oneResponse = foundResponses[q];
+                                        var numCorrect = 0;
+                                        var validQuestions = 0;
+                                        for (var i = 0; i < foundQuiz.questions.length; i++) {
+                                            var question = foundQuiz.questions[i];
+                                            if (question.type == 'multiple_choice') {
+                                                validQuestions++;
 
-                                                }
-
-                                                var rightAnswer;
-                                                for (var n = 0; n < question.choices.length; n++) {
-                                                    var yeaman = question.choices[n];
-                                                    if (yeaman.isCorrect) {
-                                                        //console.log("CORRECT ANSWER IS " + yeaman.text);
-                                                        rightAnswer = yeaman;
-                                                    }
-                                                }
-                                                var answer = oneResponse.answers[i];
-
-                                                var correct = false;
-                                                //console.log("RightAnswer: " + rightAnswer);
-                                                if (typeof(rightAnswer) != 'undefined' && answer.response == rightAnswer.text) {
-                                                    correct = true;
-                                                    numCorrect++;
-                                                }
-                                                //console.log("Q/A combo: " + question.text + "/" + answer.response + " / " + correct);
                                             }
-                                            var percentage = numCorrect / validQuestions;
-                                            oneResponse.percentage = percentage;
+
+                                            var rightAnswer;
+                                            for (var n = 0; n < question.choices.length; n++) {
+                                                var yeaman = question.choices[n];
+                                                if (yeaman.isCorrect) {
+                                                    //console.log("CORRECT ANSWER IS " + yeaman.text);
+                                                    rightAnswer = yeaman;
+                                                }
+                                            }
+                                            var answer = oneResponse.answers[i];
+
+                                            var correct = false;
+                                            //console.log("RightAnswer: " + rightAnswer);
+                                            if (typeof(rightAnswer) != 'undefined' && answer.response == rightAnswer.text) {
+                                                correct = true;
+                                                numCorrect++;
+                                            }
+                                            //console.log("Q/A combo: " + question.text + "/" + answer.response + " / " + correct);
                                         }
+                                        var percentage = numCorrect / validQuestions;
+                                        oneResponse.percentage = percentage;
                                     }
+                                    //}
                                     //console.log("FoundResponses was not null, sweet! " + foundResponses.length);
                                     res.send({
                                         status: 'success',
