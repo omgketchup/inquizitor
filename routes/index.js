@@ -653,8 +653,8 @@ exports.getresponses = function(req, res) {
                                             if (typeof(rightAnswer) != 'undefined' && typeof(answer) != 'undefined' && answer.response == rightAnswer.text) {
                                                 correct = true;
                                                 numCorrect++;
+                                                console.log("QUESTION: " + question.text + ", RightAnswer: " + rightAnswer.text + ", MyAnswer: " + answer.response);
                                             }
-                                            console.log("QUESTION: " + question.text + ", RightAnswer: " + rightAnswer.text + ", MyAnswer: " + answer.response);
                                             //console.log("Q/A combo: " + question.text + "/" + answer.response + " / " + correct);
                                         }
                                         var percentage = numCorrect / validQuestions;
