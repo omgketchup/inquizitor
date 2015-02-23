@@ -76,6 +76,7 @@ var app = angular.module('app', ['ngAnimate', 'ui.router', 'ui.bootstrap', 'ngSa
                 console.log("About to download as CSV");
                 if ($scope.responses != null && typeof($scope.responses) != 'undefined') {
                     var data = $scope.responses;
+                    /*
                     console.log("Abotu to loop through and create a CSV file");
                     var csvString = "";
                     for (var i = 0; i < data.length; i++) {
@@ -89,7 +90,7 @@ var app = angular.module('app', ['ngAnimate', 'ui.router', 'ui.bootstrap', 'ngSa
                         type: 'text/plain'
                     });
                     $scope.url = (window.URL || window.webkitURL).createObjectURL(blob);
-                    $scope.downloadready = true;
+                    $scope.downloadready = true;*/
                 }
             })
             .error(function(response) {

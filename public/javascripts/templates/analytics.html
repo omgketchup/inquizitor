@@ -1,55 +1,57 @@
 <div class='row'>
-	<div class='large-12 columns'>
-		<h1>{{quiz.name}}.</h1>
-	</div>
+    <div class='large-12 columns'>
+        <h1>{{quiz.name}}.</h1>
+    </div>
 </div>
 <div class='row'>
-	<div class='large-12 columns'>
-		<h3 class='panel'>Put a graph of quiz activity here, and stats and stuff.</h3>
-	</div>
+    <div class='large-12 columns'>
+        <h3 class='panel'>Put a graph of quiz activity here, and stats and stuff.</h3>
+    </div>
 </div>
 <div class='row'>
-	<div class='large-12 small-12 columns'>
-		<a data-ng-show='downloadready' download='answers.csv' ng-href='{{ url }}' class='button tiny success expand'>Download Results As CSV</a>
-	</div>
+    <div class='large-12 small-12 columns'>
+        <a data-ng-show='downloadready' download='answers.csv' ng-href='{{ url }}' class='button tiny success expand'>Download Results As CSV</a>
+    </div>
 </div>
 <div class='row'>
-	<div class='large-12 columns'>
-		<table style='width:100%;'>
-			<thead>
-				<tr>
-					<th>Submitted by</th>
-					<th data-ng-show='quiz.type == "poll" || quiz.type == "Poll"'>Score</th>
-					<th>Date submitted</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr data-ng-repeat='r in responses | limitTo:1000'>
-					<td>
-						<table style='width:100%;'>
-							<tr>
-								<td>
-									<a ui-sref='viewResults({email:r.email, id:quiz._id, responseId: r._id})'>{{r.email}} | {{r.answers[0].response}}</a> 
-								</td>
-								<td data-ng-show='quiz.type == "poll" || quiz.type == "Poll"'>
-									{{r.percentage * 100 | number:2}}%
-								</td>
-								<td>
-									{{r.submitted | date:'MM/dd/yy, h:mma'}}
-								</td>
-							</tr>
-							<tr>
-								<td colspan="2">
-									<span>{{r.answers[1].response}}</span> 
-								</td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-				<tr data-ng-repeat='r in responses | limitTo:1000'>
-					
-				</tr>
-			</tbody>
-		</table>
-	</div>
+    <div class='large-12 columns'>
+        <table style='width:100%;'>
+            <thead>
+                <tr>
+                    <th>Submitted by</th>
+                    <th data-ng-show='quiz.type == "poll" || quiz.type == "Poll"'>Score</th>
+                    <th>Date submitted</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-ng-repeat='r in responses | limitTo:1000'>
+                    <td>
+                        <table style='width:100%;'>
+                            <tr>
+                                <td>
+                                    <a ui-sref='viewResults({email:r.email, id:quiz._id, responseId: r._id})'>
+										{{r.email}} | {{r.answers[0].response}}
+									</a>
+                                </td>
+                                <td>
+                                    {{r.percentage * 100 | number:2}}%
+                                </td>
+                                <td>
+                                    {{r.submitted | date:'MM/dd/yy, h:mma'}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <span>{{r.answers[1].response}}</span>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr data-ng-repeat='r in responses | limitTo:1000'>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>

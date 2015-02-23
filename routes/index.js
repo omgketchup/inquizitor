@@ -627,6 +627,7 @@ exports.getresponses = function(req, res) {
                                 if (foundResponses != null) {
                                     //CALCULATE PERCENTAGES FOR MULTIPLE CHOICE QUIZ RESULTS WITH ANSWERS
                                     //if (foundQuiz.type == 'poll' || foundQuiz.type == 'Poll') {
+                                    var checkedResponses = [];
                                     for (var q = 0; q < foundResponses.length; q++) {
                                         var oneResponse = foundResponses[q];
                                         var numCorrect = 0;
@@ -649,7 +650,7 @@ exports.getresponses = function(req, res) {
                                             var answer = oneResponse.answers[i];
 
                                             var correct = false;
-                                            //console.log("RightAnswer: " + rightAnswer);
+                                            console.log("RightAnswer: " + rightAnswer.text + ", MyAnswer: " + answer.response);
                                             if (typeof(rightAnswer) != 'undefined' && answer.response == rightAnswer.text) {
                                                 correct = true;
                                                 numCorrect++;
@@ -658,13 +659,14 @@ exports.getresponses = function(req, res) {
                                         }
                                         var percentage = numCorrect / validQuestions;
                                         oneResponse.percentage = percentage;
+                                        checkedResponses.push(oneResponse);
                                     }
                                     //}
                                     //console.log("FoundResponses was not null, sweet! " + foundResponses.length);
                                     res.send({
                                         status: 'success',
                                         data: {
-                                            responses: foundResponses,
+                                            responses: checkedResponses,
                                             quiz: foundQuiz
                                         }
                                     });
