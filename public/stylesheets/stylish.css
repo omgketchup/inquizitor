@@ -21,6 +21,9 @@ label{
 	vertical-align:middle;
 	margin-left:.5em;
 }
+.quiz_contents h1{
+	display: none;
+}
 
 /*.enter-question{
 	border:solid black;
