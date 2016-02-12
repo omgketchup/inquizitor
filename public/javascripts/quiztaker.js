@@ -168,6 +168,7 @@ var app = angular.module('app', ['ngAnimate', 'ui.router', 'ngSanitize'])
                             responseId: rid
                         });
                     }
+                    parent.postMessage('scrollToTop', "*");
                 })
                 .error(function(response) {
                     //console.log("ERROR COMING BACK FROM SERVER...");
