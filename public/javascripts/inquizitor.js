@@ -256,6 +256,7 @@ var app = angular.module('app', ['ngAnimate', 'ui.router', 'ui.bootstrap', 'ngSa
         $scope.formy = {};
         $scope.UploadImage = function(files) {
             console.log("Uploading image...");
+            console.dir(files);
             console.dir(files[0]);
             var fd = new FormData();
 

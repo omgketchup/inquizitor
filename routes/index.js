@@ -23,6 +23,7 @@ exports.apphome = function(req, res) {
 }
 
 exports.uploadimage = function(req, res) {
+    console.log('UPLOADING DAT IMAGE');
     if (!req.isAuthenticated()) {
         res.send({
             status: 'failure',
@@ -30,12 +31,14 @@ exports.uploadimage = function(req, res) {
         });
         return;
     }
-
+    console.log('Uploading image...');
     var newpath = './public/uploads/' + req.files.file.name
-
+    console.log('newpath: ' + newpath);
     var source = fs.createReadStream(req.files.file.path);
     var dest = fs.createWriteStream(newpath);
 
+    console.log('Source:' + source);
+    console.log('Dest: ' + dest);
     source.pipe(dest);
     source.on('end', function() {
         var fullURL = req.protocol + "://" + req.get('host') + '/uploads/' + req.files.file.name;
@@ -117,6 +120,8 @@ exports.currentuser = function(req, res) {
 exports.signup = function(req, res) {
     if (req.method == "POST") {
         //create a user
+        console.log("Attempting to sign up:");
+        console.dir(req.body);
         req.checkBody('email', 'Invalid email').notEmpty().isEmail();
         req.checkBody('pass', 'Invalid password').len(5, 25);
         var valErrors = req.validationErrors();
@@ -130,7 +135,7 @@ exports.signup = function(req, res) {
             return;
         }
 
-
+        console.log("Gonna find user");
         User.findOne({
             email: req.body.email
         }, function(err, user) {
@@ -138,8 +143,12 @@ exports.signup = function(req, res) {
                 console.log("LOGGING MONGODB ERROR while checking to see if we can create a new user: " + err)
             }
             if (user == null) {
+                console.log("User is null");
                 //user is allowed to be created
-                var newuser = new User(req.body);
+                var newuser = new User({
+                    email: req.body.email,
+                    pass: req.body.pass
+                });
                 newuser.save(function(err, newuser) {
                     if (err) {
                         console.log("LOGGING MONGODB ERROR while saving a new user: " + err)
@@ -153,6 +162,7 @@ exports.signup = function(req, res) {
                     })
                 });
             } else {
+                console.log("User was not null.");
                 //user was already found in the system.
                 res.render('signup', {
                     status: "failure",

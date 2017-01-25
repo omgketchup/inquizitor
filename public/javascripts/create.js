@@ -61,6 +61,7 @@ function loginPageController($scope, $http){
 function signupPageController($scope, $http){
 	$scope.user = {};
 	$scope.errorMessage = "";
+	console.log("SIGNUP PAGE");
 	$http.get('/user')
 	.success(function(response){
 		if(response.status = 'success'){
@@ -75,10 +76,12 @@ function signupPageController($scope, $http){
 	});
 
 	$scope.SignUp = function(){
+		console.debug(data);
 		console.log("Angular created data from scope user");
+		/*
 		var data = $scope.newuser;
 		console.log("user:" + $scope.newuser.email + ", " + $scope.newuser.pass);
-		console.debug(data);
+		
 		$http.post('/signup', data)
 		.success(function(response){
 			//alert("SUCCESS WAS:" + response.status);
@@ -92,7 +95,7 @@ function signupPageController($scope, $http){
 			///alert("ERROR WAS:" + response.status);
 			console.log("/signup ERROR");
 			console.debug(response);
-		});	
+		});*/
 	};
 }
 

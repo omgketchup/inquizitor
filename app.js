@@ -11,7 +11,9 @@ var express = require('express')
   , check = require('express-validator')
   , mongoose = require('mongoose')
   , flash = require('connect-flash')
-  , passport = require('passport');
+  , passport = require('passport')
+  , https = require('https')
+  , fs = require('fs');
 
 var app = module.exports = express();
 
@@ -35,7 +37,6 @@ app.use(flash());
 app.use(require('stylus').middleware(__dirname + '/public'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(app.router);
-console.log("After router");
 
 
 // development only
